@@ -163,7 +163,8 @@ h1, h2, h3, h4, h5, h6, figure {
       margin-bottom: 30px; }
     #fh5co-header .display-tc h3,
     .fh5co-cover .display-tc h3 {
-      font-size: 16px; }
+      font-size: 16px;
+      color: #000; }
       @media screen and (max-width: 768px) {
         #fh5co-header .display-tc h3,
         .fh5co-cover .display-tc h3 {
