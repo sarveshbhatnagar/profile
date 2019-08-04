@@ -6,5 +6,5 @@ it will be hosted on www.sarveshbhatnagar.com
 
 
 Whats left :
-1. Add Links.
+<del>1. Add Links.</del>
 2. Add animations.
