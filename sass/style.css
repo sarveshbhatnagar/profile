@@ -1045,4 +1045,23 @@ input[type="text"] {
 .js .animate-box {
   opacity: 0; }
 
+/* Custom fix for feature alignment */
+#fh5co-features .row {
+  display: flex;
+  flex-wrap: wrap; }
+
+#fh5co-features .col-md-3 {
+  display: flex;
+  flex-direction: column; }
+
+#fh5co-features .feature-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  float: none !important;
+  min-height: 200px; }
+
+#fh5co-features .feature-copy {
+  flex: 1; }
+
 /*# sourceMappingURL=style.css.map */
