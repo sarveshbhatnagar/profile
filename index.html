@@ -3,294 +3,421 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Sarvesh Bhatnagar — SDE at Amazon, Serverless Researcher, ML Infrastructure Engineer. Personal portfolio." />
-  <title>Sarvesh Bhatnagar — Developer / Researcher</title>
-  <link rel="stylesheet" href="css/terminal.css" />
+  <meta name="description" content="Sarvesh Bhatnagar — SDE at Amazon, Serverless Researcher, ML Infrastructure Engineer." />
+  <title>Sarvesh Bhatnagar</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/minimal.css" />
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════
-     NAVIGATION
-═══════════════════════════════════════════════════ -->
-<nav class="nav" role="navigation" aria-label="Main navigation">
-  <div class="nav-inner">
-    <a href="index.html" class="nav-logo" aria-label="Home">
-      <span class="prompt">~/</span><span class="path">sb</span><span class="dollar">$</span>
-      <span class="cursor" aria-hidden="true"></span>
-    </a>
-
-    <div class="nav-links" role="list">
-      <a href="index.html"    class="nav-link active" data-page="/" role="listitem"><span class="cmd-prefix">&gt; </span>home</a>
-      <a href="about.html"    class="nav-link" data-page="/about.html" role="listitem"><span class="cmd-prefix">&gt; </span>about</a>
-      <a href="research.html" class="nav-link" data-page="/research.html" role="listitem"><span class="cmd-prefix">&gt; </span>research</a>
-      <a href="projects.html" class="nav-link" data-page="/projects.html" role="listitem"><span class="cmd-prefix">&gt; </span>projects</a>
-      <a href="blog/index.html" class="nav-link" data-page="/blog/" role="listitem"><span class="cmd-prefix">&gt; </span>blog</a>
-    </div>
-
-    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
-
-<!-- Mobile nav -->
-<div class="nav-mobile" id="nav-mobile" role="menu">
-  <a href="index.html"    class="nav-link active" role="menuitem"><span class="cmd-prefix">&gt; </span>home</a>
-  <a href="about.html"    class="nav-link" role="menuitem"><span class="cmd-prefix">&gt; </span>about</a>
-  <a href="research.html" class="nav-link" role="menuitem"><span class="cmd-prefix">&gt; </span>research</a>
-  <a href="projects.html" class="nav-link" role="menuitem"><span class="cmd-prefix">&gt; </span>projects</a>
-  <a href="blog/index.html" class="nav-link" role="menuitem"><span class="cmd-prefix">&gt; </span>blog</a>
-</div>
-
-<!-- ═══════════════════════════════════════════════════
-     HERO
-═══════════════════════════════════════════════════ -->
-<main id="main-content">
-<section class="hero" aria-label="Introduction">
-  <div class="hero-glow" aria-hidden="true"></div>
-  <div class="container">
-    <div class="hero-content stagger">
-
-      <p class="hero-pre">
-        <span class="prompt-sym" aria-hidden="true">$</span>
-        <span>whoami</span>
-      </p>
-
-      <h1 class="hero-name">
-        <span class="first">Sarvesh</span>&nbsp;<span class="last">Bhatnagar</span>
-      </h1>
-
-      <div class="hero-role-line" aria-label="Current role">
-        <span class="role-prefix" aria-hidden="true">const role =</span>
-        <span aria-live="polite">"<span id="typed-text" aria-label="Role">SDE @ Amazon</span><span class="typed-cursor" aria-hidden="true">|</span>"</span>
-      </div>
-
-      <p class="hero-desc">
-        Developer &amp; researcher sitting at the intersection of systems engineering and applied AI.
-        Currently building ML infrastructure and LLM evaluation systems at Amazon.
-        Curious mind, consistent builder.
-      </p>
-
-      <div class="hero-actions">
-        <a href="about.html" class="btn btn-primary">
-          <span aria-hidden="true">./</span>about_me
-        </a>
-        <a href="research.html" class="btn btn-outline">
-          <span aria-hidden="true">&gt; </span>research
-        </a>
-        <a href="mailto:sarveshbhatnagar08@gmail.com" class="btn btn-ghost">
-          <span aria-hidden="true">@</span>contact
-        </a>
-      </div>
-
-    </div><!-- /.hero-content -->
-
-    <!-- Stats row -->
-    <div class="stats-row" aria-label="Quick stats">
-      <div class="stat-item">
-        <div class="stat-value">3+</div>
-        <div class="stat-label">Publications</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value">17</div>
-        <div class="stat-label">Projects</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value">3+</div>
-        <div class="stat-label">Years @ Amazon</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value">2017</div>
-        <div class="stat-label">Writing Since</div>
+  <!-- Navigation -->
+  <nav class="nav" aria-label="Primary navigation">
+    <div class="nav__inner">
+      <a href="#hero" class="nav__brand">sb.</a>
+      <div class="nav__links">
+        <a href="#about"        class="nav__link">about</a>
+        <a href="#experience"   class="nav__link">experience</a>
+        <a href="#skills"       class="nav__link">skills</a>
+        <a href="#research"     class="nav__link">research</a>
+        <a href="#projects"     class="nav__link">projects</a>
+        <a href="#contact"      class="nav__link">contact</a>
       </div>
     </div>
+  </nav>
 
-  </div><!-- /.container -->
-</section>
+  <!-- Hero -->
+  <section id="hero">
+    <div class="container">
+      <h1 class="hero__name fade-in">Sarvesh<br />Bhatnagar</h1>
+      <p class="hero__tagline fade-in">SDE at Amazon &middot; Serverless Research &middot; ML Infrastructure</p>
+      <div class="hero__links fade-in">
+        <a href="https://github.com/sarveshbhatnagar" target="_blank" rel="noopener" class="hero__link">GitHub</a>
+        <a href="https://www.linkedin.com/in/sarvesh08/" target="_blank" rel="noopener" class="hero__link">LinkedIn</a>
+        <a href="http://www.introtoalgo.com" target="_blank" rel="noopener" class="hero__link">Blog</a>
+        <a href="#contact" class="hero__link hero__link--accent">Get in touch</a>
+      </div>
+    </div>
+  </section>
 
-<!-- ═══════════════════════════════════════════════════
-     QUICK NAVIGATION
-═══════════════════════════════════════════════════ -->
-<section class="section featured-section" aria-label="Quick navigation">
-  <div class="container">
-    <div class="grid-2" style="gap:var(--space-xl); align-items:start;">
-
-      <!-- Left: ASCII directory nav -->
-      <div>
-        <span class="section-label">01 — navigate</span>
-        <h2 class="section-title">Explore the <span class="accent">codebase</span></h2>
-
-        <div class="card" style="padding:0; overflow:hidden;">
-          <div class="card-header" style="padding:0.6em var(--space-md); margin:0; border-radius:0;">
-            <div class="card-dot card-dot-red"></div>
-            <div class="card-dot card-dot-amber"></div>
-            <div class="card-dot card-dot-green"></div>
-            <span class="card-filename">~/sarvesh — tree</span>
-          </div>
-          <div style="padding:var(--space-sm) 0; font-size:0.82rem; color:var(--text-faint);">
-            <div style="padding:0.4em var(--space-md);">.</div>
-            <a class="ascii-link-item" href="about.html" style="padding-left:calc(var(--space-md) + 8px);">
-              <span class="link-num">├─</span>
-              <span class="link-name">about.md</span>
-              <span class="link-desc">Bio, timeline, skills</span>
-              <span class="link-arrow">→</span>
-            </a>
-            <a class="ascii-link-item" href="research.html" style="padding-left:calc(var(--space-md) + 8px);">
-              <span class="link-num">├─</span>
-              <span class="link-name">research/</span>
-              <span class="link-desc">3 publications</span>
-              <span class="link-arrow">→</span>
-            </a>
-            <a class="ascii-link-item" href="projects.html" style="padding-left:calc(var(--space-md) + 8px);">
-              <span class="link-num">├─</span>
-              <span class="link-name">projects/</span>
-              <span class="link-desc">17 projects</span>
-              <span class="link-arrow">→</span>
-            </a>
-            <a class="ascii-link-item" href="blog/index.html" style="padding-left:calc(var(--space-md) + 8px);">
-              <span class="link-num">├─</span>
-              <span class="link-name">blog/</span>
-              <span class="link-desc">Articles &amp; thoughts</span>
-              <span class="link-arrow">→</span>
-            </a>
-            <a class="ascii-link-item" href="https://www.introtoalgo.com" target="_blank" rel="noopener" style="padding-left:calc(var(--space-md) + 8px);">
-              <span class="link-num">└─</span>
-              <span class="link-name">introtoalgo.com</span>
-              <span class="link-desc">External blog ↗</span>
-              <span class="link-arrow">→</span>
-            </a>
-          </div>
+  <!-- About -->
+  <section class="section" id="about">
+    <div class="container">
+      <span class="section__label">01 &mdash; About</span>
+      <h2 class="section__title">A bit about me</h2>
+      <div class="about__text">
+        <p>I'm Sarvesh Bhatnagar &mdash; an engineer and researcher driven by curiosity. Currently working as an <strong>SDE at Amazon</strong>, where I build distributed systems spanning ML Infrastructure, LLM evaluation pipelines, notification services, and authorization frameworks.</p>
+        <p>My research sits at the intersection of serverless computing and systems design. At the <strong>University of Michigan</strong>, I worked on open-source serverless search &mdash; exploring how functions are discovered and composed across ecosystems. I'm interested in how ML infrastructure and serverless primitives reshape what we can build at scale.</p>
+        <p>Outside of work I write at <strong><a href="http://www.introtoalgo.com" target="_blank" rel="noopener">introtoalgo.com</a></strong>, exploring algorithms, data structures, and computing ideas in an accessible way. I believe in consistent learning, confident humility, and grounded self-reflection.</p>
+      </div>
+      <div class="about__meta">
+        <div class="meta-item">
+          <span class="meta-item__label">Role</span>
+          <span class="meta-item__value">SDE @ Amazon</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-item__label">Education</span>
+          <span class="meta-item__value">University of Michigan</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-item__label">Blog</span>
+          <span class="meta-item__value"><a href="http://www.introtoalgo.com" target="_blank" rel="noopener">introtoalgo.com &#x2197;</a></span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-item__label">Email</span>
+          <span class="meta-item__value"><a href="mailto:sarveshbhatnagar08@gmail.com">sarveshbhatnagar08@gmail.com &#x2197;</a></span>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- Right: Connect / about snippet -->
-      <div>
-        <span class="section-label">02 — connect</span>
-        <h2 class="section-title">Get in <span class="accent">touch</span></h2>
+  <!-- Experience -->
+  <section class="section" id="experience">
+    <div class="container">
+      <span class="section__label">02 &mdash; Experience</span>
+      <h2 class="section__title">Where I've worked</h2>
+      <ol class="timeline">
 
-        <div class="card">
-          <div class="card-header">
-            <div class="card-dot card-dot-red"></div>
-            <div class="card-dot card-dot-amber"></div>
-            <div class="card-dot card-dot-green"></div>
-            <span class="card-filename">contact.json</span>
+        <li class="timeline__item">
+          <time class="timeline__date">Oct 2022 &mdash; Present</time>
+          <div>
+            <h3 class="timeline__title">SDE at Amazon</h3>
+            <div class="timeline__body">
+              <p>Building distributed systems across ML Infrastructure, advertising, and platform tooling.</p>
+              <p>Campaign metadata management, insights aggregation for third-party data intake, notification service, ML infrastructure for marketing and ads, LLM-based creative compliance evaluation, and flexible authorization &amp; authentication systems.</p>
+            </div>
+            <div class="timeline__tags">
+              <span class="timeline__tag">Distributed Systems</span>
+              <span class="timeline__tag">ML Infrastructure</span>
+              <span class="timeline__tag">LLMs</span>
+              <span class="timeline__tag">AWS</span>
+            </div>
           </div>
-          <div class="code-block-body" style="padding:0;">
-<pre style="background:transparent; border:none; padding:0; font-size:0.82rem;"><code><span class="json-bracket">{</span>
-  <span class="json-key">"name"</span>:     <span class="json-str">"Sarvesh Bhatnagar"</span>,
-  <span class="json-key">"email"</span>:    <span class="json-str">"<a href="mailto:sarveshbhatnagar08@gmail.com" style="color:inherit;">sarveshbhatnagar08@gmail.com</a>"</span>,
-  <span class="json-key">"github"</span>:   <span class="json-str">"<a href="https://github.com/sarveshbhatnagar" target="_blank" rel="noopener" style="color:inherit;">github.com/sarveshbhatnagar</a>"</span>,
-  <span class="json-key">"linkedin"</span>: <span class="json-str">"<a href="https://www.linkedin.com/in/sarvesh08/" target="_blank" rel="noopener" style="color:inherit;">linkedin.com/in/sarvesh08</a>"</span>,
-  <span class="json-key">"blog"</span>:     <span class="json-str">"<a href="https://www.introtoalgo.com" target="_blank" rel="noopener" style="color:inherit;">introtoalgo.com</a>"</span>,
-  <span class="json-key">"status"</span>:   <span class="json-str">"SDE @ Amazon"</span>
-<span class="json-bracket">}</span></code></pre>
+        </li>
+
+        <li class="timeline__item">
+          <time class="timeline__date">Summer 2022</time>
+          <div>
+            <h3 class="timeline__title">SDE Intern at Amazon</h3>
+            <div class="timeline__body">
+              <p>2.5-month internship in the Consumer Organization.</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="timeline__item">
+          <time class="timeline__date">University of Michigan</time>
+          <div>
+            <h3 class="timeline__title">Graduate Researcher &mdash; Serverless Computing</h3>
+            <div class="timeline__body">
+              <p>Master's thesis on OS3 &mdash; Open-Source Serverless Search. Research on serverless function discovery and search across open-source ecosystems. Published at IEEE PerCom 2023.</p>
+            </div>
+            <div class="timeline__tags">
+              <span class="timeline__tag">Serverless</span>
+              <span class="timeline__tag">Systems Research</span>
+              <span class="timeline__tag">IEEE PerCom</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="timeline__item">
+          <time class="timeline__date">2020 &mdash; 2021</time>
+          <div>
+            <h3 class="timeline__title">Director at RevoltronX</h3>
+            <div class="timeline__body">
+              <p>Led technical direction and development initiatives at the startup.</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="timeline__item">
+          <time class="timeline__date">2019 &mdash; Present</time>
+          <div>
+            <h3 class="timeline__title">Co-founder &amp; Head, Project Drive</h3>
+            <div class="timeline__body">
+              <p>Community project with 27 active members focused on engineering education and collaboration.</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="timeline__item">
+          <time class="timeline__date">2017 &mdash; Present</time>
+          <div>
+            <h3 class="timeline__title">introtoalgo.com</h3>
+            <div class="timeline__body">
+              <p>Founded and maintain a technical blog covering algorithms, data structures, and computing concepts.</p>
+            </div>
+          </div>
+        </li>
+
+      </ol>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section class="section" id="skills">
+    <div class="container">
+      <span class="section__label">03 &mdash; Skills</span>
+      <h2 class="section__title">What I work with</h2>
+      <div class="skills__grid">
+
+        <div class="skill-item">
+          <span class="skill-item__category">Languages</span>
+          <div class="skill-item__list">
+            <span>Python</span>
+            <span>Go</span>
+            <span>TypeScript</span>
+            <span>Java</span>
+            <span>C++</span>
           </div>
         </div>
 
-        <div class="social-links mt-md">
-          <a href="https://github.com/sarveshbhatnagar" class="social-link" target="_blank" rel="noopener" aria-label="GitHub">
-            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-            GitHub
+        <div class="skill-item">
+          <span class="skill-item__category">Cloud &amp; Infra</span>
+          <div class="skill-item__list">
+            <span>AWS</span>
+            <span>Lambda</span>
+            <span>DynamoDB</span>
+            <span>SQS / SNS</span>
+            <span>CDK / CloudFormation</span>
+          </div>
+        </div>
+
+        <div class="skill-item">
+          <span class="skill-item__category">Systems</span>
+          <div class="skill-item__list">
+            <span>Distributed Systems</span>
+            <span>Serverless</span>
+            <span>Microservices</span>
+            <span>Event-driven Arch</span>
+          </div>
+        </div>
+
+        <div class="skill-item">
+          <span class="skill-item__category">ML &amp; AI</span>
+          <div class="skill-item__list">
+            <span>ML Infrastructure</span>
+            <span>LLMs</span>
+            <span>TensorFlow</span>
+            <span>OpenCV</span>
+            <span>NLP</span>
+          </div>
+        </div>
+
+        <div class="skill-item">
+          <span class="skill-item__category">Tools</span>
+          <div class="skill-item__list">
+            <span>Git</span>
+            <span>Docker</span>
+            <span>Linux</span>
+            <span>REST / GraphQL</span>
+          </div>
+        </div>
+
+        <div class="skill-item">
+          <span class="skill-item__category">Other</span>
+          <div class="skill-item__list">
+            <span>Flutter / Dart</span>
+            <span>Firebase</span>
+            <span>Technical Writing</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Research -->
+  <section class="section" id="research">
+    <div class="container">
+      <span class="section__label">04 &mdash; Research</span>
+      <h2 class="section__title">Publications</h2>
+      <div class="publications">
+
+        <div class="pub-item">
+          <p class="pub-item__venue">IEEE PerCom 2023 &middot; *LESS Workshop</p>
+          <h3 class="pub-item__title">OS3: The Art and the Practice of Searching for Open-Source Serverless Functions</h3>
+          <p class="pub-item__desc">Presents OS3, a search approach that maximises utility of serverless function results by combining keyword and library-usage matching, filtering by software licence. Built over a corpus of 5,981 serverless repositories from AWS, Azure, IBM Cloud, and the Serverless Framework.</p>
+          <a href="https://people.cs.vt.edu/tilevich/papers/StarLess2023.pdf" target="_blank" rel="noopener" class="pub-item__link">PDF &#x2197;</a>
+        </div>
+
+        <div class="pub-item">
+          <p class="pub-item__venue">Social Network Analysis and Mining &middot; Springer 2021</p>
+          <h3 class="pub-item__title">Making Sense of Tweets Using Sentiment Analysis on Closely Related Topics</h3>
+          <p class="pub-item__desc">Architecture combining sentiment analysis and community detection to derive overall sentiment across closely related topics &mdash; applied to shopping, politics, COVID-19, and electric vehicles.</p>
+          <a href="https://link.springer.com/article/10.1007/s13278-021-00752-0" target="_blank" rel="noopener" class="pub-item__link">Springer &#x2197;</a>
+        </div>
+
+        <div class="pub-item">
+          <p class="pub-item__venue">IJCA 2020</p>
+          <h3 class="pub-item__title">A Review of Common Approaches to Sentiment Analysis and Community Detection</h3>
+          <p class="pub-item__desc">Comprehensive review of foundational algorithms applied to sentiment analysis and community detection in social networks.</p>
+          <a href="https://www.researchgate.net/publication/340672368_A_Review_of_Common_Approaches_to_Sentiment_Analysis_and_Community_Detection" target="_blank" rel="noopener" class="pub-item__link">ResearchGate &#x2197;</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section class="section" id="projects">
+    <div class="container">
+      <span class="section__label">05 &mdash; Projects</span>
+      <h2 class="section__title">Things I've built</h2>
+      <div class="projects__grid">
+
+        <div class="project-card">
+          <span class="project-card__category">Systems</span>
+          <h3 class="project-card__title">OS3 &mdash; Serverless Search</h3>
+          <p class="project-card__desc">Open-source tool for discovering and searching serverless functions across ecosystems. Master's thesis project, published at IEEE PerCom.</p>
+          <div class="project-card__tags">
+            <span>Python</span><span>Serverless</span><span>Search</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <span class="project-card__category">NLP</span>
+          <h3 class="project-card__title">Boundary Detection</h3>
+          <p class="project-card__desc">Sentence boundary detection achieving 98% accuracy.</p>
+          <div class="project-card__tags">
+            <span>Python</span><span>NLP</span><span>98% accuracy</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <span class="project-card__category">NLP</span>
+          <h3 class="project-card__title">POS Tagger</h3>
+          <p class="project-card__desc">Parts-of-Speech tagger using the Viterbi algorithm, 96% accuracy.</p>
+          <div class="project-card__tags">
+            <span>Python</span><span>Viterbi</span><span>96% accuracy</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <span class="project-card__category">AI / ML</span>
+          <h3 class="project-card__title">Object Detection</h3>
+          <p class="project-card__desc">Real-time object detection using TensorFlow, Keras, and convolutional neural networks.</p>
+          <div class="project-card__tags">
+            <span>TensorFlow</span><span>Keras</span><span>CNN</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <span class="project-card__category">Mobile</span>
+          <h3 class="project-card__title">YahooFin</h3>
+          <p class="project-card__desc">Dart library for accessing Yahoo Finance API data in Flutter applications.</p>
+          <div class="project-card__tags">
+            <span>Dart</span><span>Flutter</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <span class="project-card__category">Mobile</span>
+          <h3 class="project-card__title">MUZE</h3>
+          <p class="project-card__desc">Published music player app with custom icon design and smooth playback.</p>
+          <div class="project-card__tags">
+            <span>Flutter</span><span>Published</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <span class="project-card__category">Hardware</span>
+          <h3 class="project-card__title">SLAM Drone</h3>
+          <p class="project-card__desc">Autonomous drone using SLAM, Raspberry Pi, Arduino, and OpenCV for navigation.</p>
+          <div class="project-card__tags">
+            <span>Raspberry Pi</span><span>SLAM</span><span>OpenCV</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <span class="project-card__category">Hardware</span>
+          <h3 class="project-card__title">Seeding Rover</h3>
+          <p class="project-card__desc">Autonomous agricultural rover using Python, OpenCV, Raspberry Pi, and Arduino.</p>
+          <div class="project-card__tags">
+            <span>Python</span><span>OpenCV</span><span>Arduino</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <span class="project-card__category">Mobile</span>
+          <h3 class="project-card__title">Flutter BagUp</h3>
+          <p class="project-card__desc">Flutter app with Firebase backend and Cloud Functions integration.</p>
+          <div class="project-card__tags">
+            <span>Flutter</span><span>Firebase</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <span class="project-card__category">Desktop</span>
+          <h3 class="project-card__title">GRE Word</h3>
+          <p class="project-card__desc">Python / Tkinter desktop application for GRE vocabulary practice.</p>
+          <div class="project-card__tags">
+            <span>Python</span><span>Tkinter</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section" id="contact">
+    <div class="container">
+      <span class="section__label">06 &mdash; Contact</span>
+      <h2 class="section__title">Get in touch</h2>
+      <div class="contact__body">
+        <p>Whether it's about distributed systems, serverless research, ML infrastructure, or just interesting ideas &mdash; I'm happy to talk.</p>
+        <div class="contact__links">
+          <a href="mailto:sarveshbhatnagar08@gmail.com" class="contact__link">
+            <span class="contact__link__label">Email</span>
+            <span class="contact__link__value">sarveshbhatnagar08@gmail.com</span>
           </a>
-          <a href="https://www.linkedin.com/in/sarvesh08/" class="social-link" target="_blank" rel="noopener" aria-label="LinkedIn">
-            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-            LinkedIn
+          <a href="https://github.com/sarveshbhatnagar" target="_blank" rel="noopener" class="contact__link">
+            <span class="contact__link__label">GitHub</span>
+            <span class="contact__link__value">github.com/sarveshbhatnagar</span>
           </a>
-          <a href="mailto:sarveshbhatnagar08@gmail.com" class="social-link" aria-label="Email">
-            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            Email
+          <a href="https://www.linkedin.com/in/sarvesh08/" target="_blank" rel="noopener" class="contact__link">
+            <span class="contact__link__label">LinkedIn</span>
+            <span class="contact__link__value">linkedin.com/in/sarvesh08</span>
+          </a>
+          <a href="http://www.introtoalgo.com" target="_blank" rel="noopener" class="contact__link">
+            <span class="contact__link__label">Blog</span>
+            <span class="contact__link__value">introtoalgo.com</span>
           </a>
         </div>
       </div>
+    </div>
+  </section>
 
-    </div><!-- /.grid-2 -->
-  </div><!-- /.container -->
-</section>
-
-<!-- ═══════════════════════════════════════════════════
-     FEATURED WORK SNAPSHOT
-═══════════════════════════════════════════════════ -->
-<section class="section" aria-label="Featured work">
-  <div class="container">
-    <span class="section-label">03 — featured</span>
-    <h2 class="section-title">Recent <span class="accent">highlights</span></h2>
-
-    <div class="grid-3 stagger">
-
-      <!-- Publication -->
-      <div class="card">
-        <div class="card-header">
-          <div class="card-dot card-dot-green"></div>
-          <div class="card-dot card-dot-amber"></div>
-          <div class="card-dot card-dot-red"></div>
-          <span class="card-filename">os3_paper.pdf</span>
-        </div>
-        <p style="font-size:0.7rem; color:var(--amber); margin-bottom:0.5em;">IEEE PerCom 2023</p>
-        <h3 style="font-size:0.95rem; font-weight:700; color:var(--text); margin-bottom:0.5em; line-height:1.4;">OS3: Open-Source Serverless Search</h3>
-        <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:var(--space-md);">Searching for serverless functions across open-source ecosystems — art, practice, and tooling.</p>
-        <a href="research.html" class="btn btn-ghost btn-sm">view research →</a>
-      </div>
-
-      <!-- Role -->
-      <div class="card">
-        <div class="card-header">
-          <div class="card-dot card-dot-green"></div>
-          <div class="card-dot card-dot-amber"></div>
-          <div class="card-dot card-dot-red"></div>
-          <span class="card-filename">amazon_sde.log</span>
-        </div>
-        <p style="font-size:0.7rem; color:var(--cyan); margin-bottom:0.5em;">Oct 2022 — Present</p>
-        <h3 style="font-size:0.95rem; font-weight:700; color:var(--text); margin-bottom:0.5em;">SDE @ Amazon Ads</h3>
-        <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:var(--space-md);">ML Infrastructure, LLM Creative Compliance Evaluation, Notification Service, Flexible Auth systems.</p>
-        <a href="about.html" class="btn btn-ghost btn-sm">full timeline →</a>
-      </div>
-
-      <!-- Blog -->
-      <div class="card">
-        <div class="card-header">
-          <div class="card-dot card-dot-green"></div>
-          <div class="card-dot card-dot-amber"></div>
-          <div class="card-dot card-dot-red"></div>
-          <span class="card-filename">introtoalgo.com</span>
-        </div>
-        <p style="font-size:0.7rem; color:var(--green); margin-bottom:0.5em;">Since 2017</p>
-        <h3 style="font-size:0.95rem; font-weight:700; color:var(--text); margin-bottom:0.5em;">IntroToAlgo Blog</h3>
-        <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:var(--space-md);">Writing about algorithms, data structures, and computing concepts in an accessible way since 2017.</p>
-        <a href="https://www.introtoalgo.com" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">visit blog ↗</a>
-      </div>
-
-    </div><!-- /.grid-3 -->
-  </div>
-</section>
-
-</main><!-- /#main-content -->
-
-<!-- ═══════════════════════════════════════════════════
-     FOOTER
-═══════════════════════════════════════════════════ -->
-<footer class="footer" role="contentinfo">
-  <div class="container">
-    <div class="footer-inner">
-      <div>
-        <div class="footer-brand"><span class="accent">~/sb$</span> Sarvesh Bhatnagar</div>
-        <div class="footer-copy">Developer · Researcher · Builder</div>
-      </div>
-      <nav class="footer-links" aria-label="Footer navigation">
-        <a href="index.html">home</a>
-        <a href="about.html">about</a>
-        <a href="research.html">research</a>
-        <a href="projects.html">projects</a>
-        <a href="blog/index.html">blog</a>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <span class="footer__name">Sarvesh Bhatnagar</span>
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="https://github.com/sarveshbhatnagar" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/sarvesh08/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="http://www.introtoalgo.com" target="_blank" rel="noopener">Blog</a>
+        <a href="mailto:sarveshbhatnagar08@gmail.com">Email</a>
       </nav>
-      <div class="footer-copy" style="width:100%; text-align:center; margin-top:0; padding-top:var(--space-md); border-top:1px solid var(--border);">
-        // Built with vanilla HTML, CSS &amp; JS &mdash; no frameworks.
-        <span style="color:var(--text-faint)"> &bull; </span>
-        <a href="https://github.com/sarveshbhatnagar" target="_blank" rel="noopener" style="color:var(--text-faint);">GitHub</a>
-      </div>
+      <p class="footer__copy">Built with vanilla HTML &amp; CSS &mdash; no frameworks.</p>
     </div>
-  </div>
-</footer>
+  </footer>
 
-<script src="js/terminal-app.js"></script>
+  <script>
+    // Subtle fade-in on scroll using IntersectionObserver
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>
