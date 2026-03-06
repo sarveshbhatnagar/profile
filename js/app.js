@@ -1,124 +1,162 @@
-/**
- * app.js — Sarvesh Bhatnagar Portfolio
- *
- * Features:
- *  - Sticky nav with scroll-blur effect
- *  - Active nav link highlighting
- *  - Mobile menu toggle
- *  - Intersection Observer scroll-reveal animations
- *  - Project category filtering
- */
+/* ============================================================
+   app.js — shared vanilla JS for glassmorphism portfolio
+   Handles: mobile nav, scroll effects, animated counters,
+            reveal-on-scroll, active nav link detection
+   ============================================================ */
 
 (function () {
   'use strict';
 
-  /* ── Elements ───────────────────────────────────────────────── */
-  const nav       = document.getElementById('nav');
-  const navToggle = document.getElementById('navToggle');
-  const navLinks  = document.getElementById('navLinks');
-  const allLinks  = navLinks.querySelectorAll('.nav__link');
-  const sections  = document.querySelectorAll('section[id]');
+  /* ── Helpers ────────────────────────────────────────────── */
+  const $ = (sel, ctx = document) => ctx.querySelector(sel);
+  const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 
-  /* ── Sticky / scrolled nav ──────────────────────────────────── */
-  function handleNavScroll() {
-    nav.classList.toggle('scrolled', window.scrollY > 40);
+  /* ── Active nav detection ───────────────────────────────── */
+  function setActiveNav() {
+    const path = window.location.pathname.replace(/\/$/, '') || '/';
+    $$('.nav-link').forEach(link => {
+      const href = link.getAttribute('href');
+      if (!href) return;
+      // Normalise href relative to root
+      const linkPath = href.replace(/\/$/, '');
+      // Check exact match or prefix match for blog section
+      const isActive =
+        path === linkPath ||
+        (linkPath !== '' && path.startsWith(linkPath) && linkPath !== '/');
+      link.classList.toggle('active', isActive);
+    });
   }
 
-  window.addEventListener('scroll', handleNavScroll, { passive: true });
-  handleNavScroll(); // run once on load
+  /* ── Nav scroll effect ──────────────────────────────────── */
+  function initNavScroll() {
+    const nav = $('.nav');
+    if (!nav) return;
+    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
 
-  /* ── Active nav link on scroll ──────────────────────────────── */
-  const sectionObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const id = entry.target.getAttribute('id');
-          allLinks.forEach((link) => {
-            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
-          });
+  /* ── Mobile nav toggle ──────────────────────────────────── */
+  function initMobileNav() {
+    const toggle = $('.nav-toggle');
+    const panel  = $('.nav-mobile');
+    if (!toggle || !panel) return;
+
+    toggle.addEventListener('click', () => {
+      const open = toggle.classList.toggle('open');
+      panel.classList.toggle('open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+
+    // Close when a link is clicked
+    $$('.nav-mobile .nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        toggle.classList.remove('open');
+        panel.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Close on outside click
+    document.addEventListener('click', e => {
+      if (!toggle.contains(e.target) && !panel.contains(e.target)) {
+        toggle.classList.remove('open');
+        panel.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+
+  /* ── Reveal on scroll ───────────────────────────────────── */
+  function initReveal() {
+    const items = $$('.reveal, .reveal-stagger');
+    if (!items.length) return;
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+
+    items.forEach(el => observer.observe(el));
+  }
+
+  /* ── Animated counter ───────────────────────────────────── */
+  function animateCounter(el, target, suffix, duration = 1400) {
+    const start = performance.now();
+    const isDecimal = String(target).includes('.');
+    const step = ts => {
+      const elapsed = ts - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = isDecimal
+        ? (eased * target).toFixed(1)
+        : Math.floor(eased * target);
+      el.textContent = current + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  function initCounters() {
+    const counters = $$('[data-count]');
+    if (!counters.length) return;
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const el = entry.target;
+            const target = parseFloat(el.dataset.count);
+            const suffix = el.dataset.suffix || '';
+            animateCounter(el, target, suffix);
+            observer.unobserve(el);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    counters.forEach(el => observer.observe(el));
+  }
+
+  /* ── Smooth internal links ──────────────────────────────── */
+  function initSmoothLinks() {
+    $$('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', e => {
+        const id = link.getAttribute('href').slice(1);
+        const target = document.getElementById(id);
+        if (target) {
+          e.preventDefault();
+          const navH = parseInt(getComputedStyle(document.documentElement)
+            .getPropertyValue('--nav-h'), 10) || 72;
+          const top = target.getBoundingClientRect().top + window.scrollY - navH - 16;
+          window.scrollTo({ top, behavior: 'smooth' });
         }
       });
-    },
-    { rootMargin: '-40% 0px -55% 0px' }
-  );
-
-  sections.forEach((section) => sectionObserver.observe(section));
-
-  /* ── Mobile menu toggle ─────────────────────────────────────── */
-  navToggle.addEventListener('click', () => {
-    const isOpen = navLinks.classList.toggle('open');
-    navToggle.classList.toggle('open', isOpen);
-    navToggle.setAttribute('aria-expanded', String(isOpen));
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-  });
-
-  // Close mobile menu when a link is clicked
-  allLinks.forEach((link) => {
-    link.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      navToggle.classList.remove('open');
-      navToggle.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
     });
-  });
+  }
 
-  // Close on click outside
-  document.addEventListener('click', (e) => {
-    if (navLinks.classList.contains('open') &&
-        !navLinks.contains(e.target) &&
-        !navToggle.contains(e.target)) {
-      navLinks.classList.remove('open');
-      navToggle.classList.remove('open');
-      navToggle.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    }
-  });
+  /* ── Init ───────────────────────────────────────────────── */
+  function init() {
+    setActiveNav();
+    initNavScroll();
+    initMobileNav();
+    initReveal();
+    initCounters();
+    initSmoothLinks();
+  }
 
-  /* ── Scroll-reveal animations ───────────────────────────────── */
-  // Trigger hero reveals immediately (they're above the fold)
-  document.querySelectorAll('.hero .reveal').forEach((el) => {
-    // Small rAF so CSS transition fires after paint
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => el.classList.add('visible'));
-    });
-  });
-
-  // Observe all other .reveal elements
-  const revealObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.15 }
-  );
-
-  document.querySelectorAll('.section .reveal, .timeline__item, .project-card, .fact-card, .lang-item, .tag').forEach((el) => {
-    el.classList.add('reveal');
-    revealObserver.observe(el);
-  });
-
-  /* ── Project filtering ──────────────────────────────────────── */
-  const filterBtns   = document.querySelectorAll('.filter-btn');
-  const projectCards = document.querySelectorAll('.project-card');
-
-  filterBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const filter = btn.dataset.filter;
-
-      // Update active button
-      filterBtns.forEach((b) => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      // Show / hide cards
-      projectCards.forEach((card) => {
-        const match = filter === 'all' || card.dataset.category === filter;
-        card.classList.toggle('hidden', !match);
-      });
-    });
-  });
-
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();
