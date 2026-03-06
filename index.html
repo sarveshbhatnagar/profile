@@ -22,8 +22,9 @@
       <a href="#about"      class="nav__link">About</a>
       <a href="#experience" class="nav__link">Experience</a>
       <a href="#skills"     class="nav__link">Skills</a>
-      <a href="#projects"   class="nav__link">Projects</a>
-      <a href="#contact"    class="nav__link">Contact</a>
+      <a href="#publications" class="nav__link">Research</a>
+      <a href="#projects"    class="nav__link">Projects</a>
+      <a href="#contact"     class="nav__link">Contact</a>
     </div>
     <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -280,11 +281,85 @@
     </div>
   </section>
 
+  <!-- ─── Publications ──────────────────────────────────────────── -->
+  <section class="section" id="publications">
+    <div class="container">
+      <header class="section__header">
+        <span class="section__label">04 — Research</span>
+        <h2 class="section__title">Publications</h2>
+      </header>
+      <ol class="pub-list">
+
+        <li class="pub-card">
+          <div class="pub-card__meta">
+            <span class="pub-card__year">2023</span>
+            <span class="pub-card__venue">IEEE PerCom Workshops · *LESS Workshop</span>
+          </div>
+          <h3 class="pub-card__title">
+            <a href="https://people.cs.vt.edu/tilevich/papers/StarLess2023.pdf" target="_blank" rel="noopener">
+              OS3: The Art and the Practice of Searching for Open-Source Serverless Functions
+            </a>
+          </h3>
+          <p class="pub-card__authors">Sarvesh Bhatnagar, Zhengquan Li, Zheng Song, Eli Tilevich</p>
+          <p class="pub-card__abstract">Presents OS3, a search approach that maximises utility of serverless function results by combining keyword and library-usage matching, and filtering results by software licence. Built in 3,000 lines of Python over a corpus of 5,981 serverless repositories from AWS, Azure, IBM Cloud, and the Serverless Framework.</p>
+          <div class="pub-card__links">
+            <a href="https://people.cs.vt.edu/tilevich/papers/StarLess2023.pdf" target="_blank" rel="noopener" class="pub-link">PDF ↗</a>
+            <a href="https://par.nsf.gov/biblio/10433331" target="_blank" rel="noopener" class="pub-link">NSF PAR ↗</a>
+            <span class="pub-doi">DOI: 10.1109/PerComWorkshops56833.2023.10150370</span>
+          </div>
+        </li>
+
+        <li class="pub-card">
+          <div class="pub-card__meta">
+            <span class="pub-card__year">2021</span>
+            <span class="pub-card__venue">Social Network Analysis and Mining · Springer</span>
+          </div>
+          <h3 class="pub-card__title">
+            <a href="https://link.springer.com/article/10.1007/s13278-021-00752-0" target="_blank" rel="noopener">
+              Making Sense of Tweets Using Sentiment Analysis on Closely Related Topics
+            </a>
+          </h3>
+          <p class="pub-card__authors">Sarvesh Bhatnagar, Nitin Choubey</p>
+          <p class="pub-card__abstract">Proposes an architecture combining sentiment analysis and community detection to derive overall sentiment across closely related topics. Applied to domains including shopping, politics, COVID-19, and electric vehicles, enabling insight into emerging trends and their business and political implications.</p>
+          <div class="pub-card__links">
+            <a href="https://link.springer.com/article/10.1007/s13278-021-00752-0" target="_blank" rel="noopener" class="pub-link">Springer ↗</a>
+            <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8092971/" target="_blank" rel="noopener" class="pub-link">PMC ↗</a>
+            <span class="pub-doi">DOI: 10.1007/s13278-021-00752-0</span>
+          </div>
+        </li>
+
+        <li class="pub-card">
+          <div class="pub-card__meta">
+            <span class="pub-card__year">2020</span>
+            <span class="pub-card__venue">International Journal of Computer Applications (IJCA)</span>
+          </div>
+          <h3 class="pub-card__title">
+            <a href="https://www.researchgate.net/publication/340672368_A_Review_of_Common_Approaches_to_Sentiment_Analysis_and_Community_Detection" target="_blank" rel="noopener">
+              A Review of Common Approaches to Sentiment Analysis and Community Detection
+            </a>
+          </h3>
+          <p class="pub-card__authors">Sarvesh Bhatnagar, Maitreya Dixit, Nachiketa Prasad</p>
+          <p class="pub-card__abstract">A comprehensive review of foundational algorithms and methods applied to sentiment analysis and community detection in social networks. Covers basic concepts, key algorithms, and outlines successful approaches applied across both fields.</p>
+          <div class="pub-card__links">
+            <a href="https://www.researchgate.net/publication/340672368_A_Review_of_Common_Approaches_to_Sentiment_Analysis_and_Community_Detection" target="_blank" rel="noopener" class="pub-link">ResearchGate ↗</a>
+            <span class="pub-doi">DOI: 10.5120/ijca2020920027</span>
+          </div>
+        </li>
+
+      </ol>
+
+      <p class="pub-footer">
+        Full list on
+        <a href="https://scholar.google.com/citations?user=9aOqEA4AAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar ↗</a>
+      </p>
+    </div>
+  </section>
+
   <!-- ─── Projects ───────────────────────────────────────────────── -->
   <section class="section section--alt" id="projects">
     <div class="container">
       <header class="section__header">
-        <span class="section__label">04 — Projects</span>
+        <span class="section__label">05 — Projects</span>
         <h2 class="section__title">Things I've built</h2>
       </header>
 
@@ -499,7 +574,7 @@
   <section class="section contact" id="contact">
     <div class="container">
       <div class="contact__inner">
-        <span class="section__label">05 — Contact</span>
+        <span class="section__label">06 — Contact</span>
         <h2 class="contact__title">Say hi?</h2>
         <p class="contact__desc">Whether it's about code, research, or just interesting ideas — I'm happy to chat.</p>
         <a href="mailto:sarveshbhatnagar08@gmail.com" class="btn btn--primary btn--lg">Send an email</a>
