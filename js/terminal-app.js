@@ -12,9 +12,9 @@
   if (!el) return;
 
   const phrases = [
-    'SDE @ Amazon',
+    'MLE @ Point72',
     'Serverless Researcher',
-    'ML Infrastructure Engineer',
+    'Machine Learning Engineer',
     'Open Source Contributor',
     'Algorithm Enthusiast'
   ];

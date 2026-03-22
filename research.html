@@ -9,188 +9,187 @@
 </head>
 <body>
 
-  <header>
-    <nav class="nav" aria-label="Main navigation">
-      <div class="nav-inner">
-        <a href="index.html" class="nav-logo">sb.</a>
-        <ul class="nav-links" role="list">
-          <li><a href="about.html"    class="nav-link">About</a></li>
-          <li><a href="research.html" class="nav-link">Research</a></li>
-          <li><a href="projects.html" class="nav-link">Projects</a></li>
-          <li><a href="blog/"         class="nav-link">Blog</a></li>
-        </ul>
-        <button class="nav-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-    </nav>
-    <nav class="nav-mobile" aria-label="Mobile navigation">
-      <a href="about.html"    class="nav-link">About</a>
-      <a href="research.html" class="nav-link">Research</a>
-      <a href="projects.html" class="nav-link">Projects</a>
-      <a href="blog/"         class="nav-link">Blog</a>
-    </nav>
-  </header>
-
-  <main>
-    <section class="section" aria-label="Research publications">
-      <div class="container">
-
-        <div class="section-header reveal">
-          <h1 class="section-title">Research</h1>
-          <p class="section-subtitle">
-            Published work spanning serverless computing, natural language processing,
-            sentiment analysis, and community detection.
-          </p>
-        </div>
-
-        <!-- Stats strip -->
-        <div class="reveal-stagger" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:600px;margin:0 auto 3rem">
-          <div class="glass-card" style="padding:1.5rem;text-align:center">
-            <div style="font-family:var(--font-head);font-size:2rem;font-weight:800;background:var(--grad-text);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">3</div>
-            <div style="font-size:.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em">Publications</div>
-          </div>
-          <div class="glass-card" style="padding:1.5rem;text-align:center">
-            <div style="font-family:var(--font-head);font-size:2rem;font-weight:800;background:var(--grad-text);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">3</div>
-            <div style="font-size:.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em">Venues</div>
-          </div>
-          <div class="glass-card" style="padding:1.5rem;text-align:center">
-            <div style="font-family:var(--font-head);font-size:2rem;font-weight:800;background:var(--grad-text);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">5</div>
-            <div style="font-size:.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em">Co-authors</div>
-          </div>
-        </div>
-
-        <!-- Publications -->
-        <div class="reveal">
-
-          <!-- Paper 1 -->
-          <article class="pub-card accent-violet">
-            <div class="pub-meta">
-              <span class="pub-venue">IEEE PerCom Workshops · StarLESS</span>
-              <span class="pub-year">2023</span>
-              <span class="tag tag-violet">Serverless Computing</span>
-            </div>
-            <h2 class="pub-title">
-              OS3: The Art and the Practice of Searching for Open-Source Serverless Functions
-            </h2>
-            <p class="pub-authors">
-              <span>Sarvesh Bhatnagar</span>, Zhengquan Li, Zheng Song, Eli Tilevich
-            </p>
-            <p class="pub-doi">DOI: 10.1109/PerComWorkshops56833.2023.10150370</p>
-            <div class="pub-links">
-              <a href="https://people.cs.vt.edu/tilevich/papers/StarLess2023.pdf"
-                 target="_blank" rel="noopener" class="pub-link">
-                📄 PDF
-              </a>
-              <a href="https://doi.org/10.1109/PerComWorkshops56833.2023.10150370"
-                 target="_blank" rel="noopener" class="pub-link">
-                🔗 DOI
-              </a>
-            </div>
-          </article>
-
-          <!-- Paper 2 -->
-          <article class="pub-card accent-blue">
-            <div class="pub-meta">
-              <span class="pub-venue">Social Network Analysis &amp; Mining · Springer</span>
-              <span class="pub-year">2021</span>
-              <span class="tag tag-blue">NLP</span>
-              <span class="tag tag-blue">Sentiment Analysis</span>
-            </div>
-            <h2 class="pub-title">
-              Making Sense of Tweets Using Sentiment Analysis on Closely Related Topics
-            </h2>
-            <p class="pub-authors">
-              <span>Sarvesh Bhatnagar</span>, Nitin Choubey
-            </p>
-            <p class="pub-doi">DOI: 10.1007/s13278-021-00752-0</p>
-            <div class="pub-links">
-              <a href="https://link.springer.com/article/10.1007/s13278-021-00752-0"
-                 target="_blank" rel="noopener" class="pub-link">
-                🔗 Springer
-              </a>
-              <a href="https://doi.org/10.1007/s13278-021-00752-0"
-                 target="_blank" rel="noopener" class="pub-link">
-                🔗 DOI
-              </a>
-            </div>
-          </article>
-
-          <!-- Paper 3 -->
-          <article class="pub-card accent-cyan">
-            <div class="pub-meta">
-              <span class="pub-venue">IJCA</span>
-              <span class="pub-year">2020</span>
-              <span class="tag tag-cyan">Sentiment Analysis</span>
-              <span class="tag tag-cyan">Community Detection</span>
-            </div>
-            <h2 class="pub-title">
-              A Review of Common Approaches to Sentiment Analysis and Community Detection
-            </h2>
-            <p class="pub-authors">
-              <span>Sarvesh Bhatnagar</span>, Maitreya Dixit, Nachiketa Prasad
-            </p>
-            <p class="pub-doi">DOI: 10.5120/ijca2020920027</p>
-            <div class="pub-links">
-              <a href="https://www.researchgate.net/publication/340672368_A_Review_of_Common_Approaches_to_Sentiment_Analysis_and_Community_Detection"
-                 target="_blank" rel="noopener" class="pub-link">
-                🔗 ResearchGate
-              </a>
-              <a href="https://doi.org/10.5120/ijca2020920027"
-                 target="_blank" rel="noopener" class="pub-link">
-                🔗 DOI
-              </a>
-            </div>
-          </article>
-
-        </div>
-
-        <!-- Research interests -->
-        <div class="glass-card reveal" style="padding:2rem;margin-top:3rem">
-          <h2 style="font-family:var(--font-head);font-size:1.3rem;font-weight:700;background:var(--grad-text);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1.5rem">Research Interests</h2>
-          <div style="display:flex;flex-wrap:wrap;gap:.75rem">
-            <span class="tag tag-violet">Serverless Computing</span>
-            <span class="tag tag-violet">Open-Source Ecosystems</span>
-            <span class="tag tag-blue">Natural Language Processing</span>
-            <span class="tag tag-blue">Sentiment Analysis</span>
-            <span class="tag tag-cyan">Community Detection</span>
-            <span class="tag tag-cyan">Social Network Analysis</span>
-            <span class="tag tag-emerald">LLM Evaluation</span>
-            <span class="tag tag-emerald">AI Reasoning</span>
-            <span class="tag tag-pink">ML Infrastructure</span>
-          </div>
-        </div>
-
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer" role="contentinfo">
-    <div class="container">
-      <div class="footer-inner">
-        <span class="footer-name">Sarvesh Bhatnagar</span>
-        <nav class="footer-links" aria-label="Footer links">
-          <a href="about.html"    class="footer-link">About</a>
-          <a href="research.html" class="footer-link">Research</a>
-          <a href="projects.html" class="footer-link">Projects</a>
-          <a href="blog/"         class="footer-link">Blog</a>
-        </nav>
-        <div class="social-links">
-          <a href="https://github.com/sarveshbhatnagar" target="_blank" rel="noopener" class="social-link" aria-label="GitHub">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-          </a>
-          <a href="https://www.linkedin.com/in/sarvesh08/" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          </a>
-          <a href="mailto:sarveshbhatnagar08@gmail.com" class="social-link" aria-label="Email">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
-          </a>
-        </div>
-      </div>
-      <p class="footer-copy">&copy; 2025 Sarvesh Bhatnagar. Built with glassmorphism &amp; curiosity.</p>
+<!-- NAV -->
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="Home">
+      <span class="prompt">~/</span><span class="path">sb</span><span class="dollar">$</span>
+      <span class="cursor" aria-hidden="true"></span>
+    </a>
+    <div class="nav-links" role="list">
+      <a href="index.html"      class="nav-link" data-page="/" role="listitem"><span class="cmd-prefix">&gt; </span>home</a>
+      <a href="about.html"      class="nav-link" data-page="/about.html" role="listitem"><span class="cmd-prefix">&gt; </span>about</a>
+      <a href="research.html"   class="nav-link active" data-page="/research.html" role="listitem"><span class="cmd-prefix">&gt; </span>research</a>
+      <a href="projects.html"   class="nav-link" data-page="/projects.html" role="listitem"><span class="cmd-prefix">&gt; </span>projects</a>
+      <a href="blog/index.html" class="nav-link" data-page="/blog/" role="listitem"><span class="cmd-prefix">&gt; </span>blog</a>
     </div>
-  </footer>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="nav-mobile" id="nav-mobile" role="menu">
+  <a href="index.html"      class="nav-link" role="menuitem"><span class="cmd-prefix">&gt; </span>home</a>
+  <a href="about.html"      class="nav-link" role="menuitem"><span class="cmd-prefix">&gt; </span>about</a>
+  <a href="research.html"   class="nav-link active" role="menuitem"><span class="cmd-prefix">&gt; </span>research</a>
+  <a href="projects.html"   class="nav-link" role="menuitem"><span class="cmd-prefix">&gt; </span>projects</a>
+  <a href="blog/index.html" class="nav-link" role="menuitem"><span class="cmd-prefix">&gt; </span>blog</a>
+</div>
 
-  <script src="js/terminal-app.js"></script>
+<main id="main-content">
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="container">
+    <p class="page-hero-pre" aria-hidden="true">research</p>
+    <h1 class="page-hero-title">Research <span class="accent">Publications</span></h1>
+    <p class="page-hero-desc">
+      // Published work spanning serverless computing, natural language processing,
+      sentiment analysis, and community detection.
+    </p>
+  </div>
+</div>
+
+<!-- STATS -->
+<section class="section" aria-label="Publication stats">
+  <div class="container">
+    <div class="stats-row" style="max-width:500px;" aria-label="Research stats">
+      <div class="stat-item">
+        <div class="stat-value">3</div>
+        <div class="stat-label">Publications</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">3</div>
+        <div class="stat-label">Venues</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">5</div>
+        <div class="stat-label">Co-authors</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section class="section" aria-label="Publications">
+  <div class="container">
+    <span class="section-label">01 — papers</span>
+    <h2 class="section-title">Published <span class="accent">Work</span></h2>
+
+    <!-- Paper 1 -->
+    <article class="pub-card">
+      <div class="pub-file-header">
+        <span class="pub-file-path">./papers/os3_starless2023.pdf</span>
+        <div style="display:flex;gap:var(--space-sm);flex-wrap:wrap;align-items:center;">
+          <span class="pub-file-type">IEEE PerCom 2023</span>
+          <span class="tag">Serverless Computing</span>
+        </div>
+      </div>
+      <div class="pub-body">
+        <h2 class="pub-title">OS3: The Art and the Practice of Searching for Open-Source Serverless Functions</h2>
+        <p class="pub-authors">Sarvesh Bhatnagar, Zhengquan Li, Zheng Song, Eli Tilevich</p>
+        <p class="pub-venue">IEEE PerCom Workshops · StarLESS Workshop · 2023</p>
+        <p class="pub-doi">DOI: 10.1109/PerComWorkshops56833.2023.10150370</p>
+        <div class="pub-links">
+          <a href="https://people.cs.vt.edu/tilevich/papers/StarLess2023.pdf" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">PDF →</a>
+          <a href="https://doi.org/10.1109/PerComWorkshops56833.2023.10150370" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">DOI →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Paper 2 -->
+    <article class="pub-card">
+      <div class="pub-file-header">
+        <span class="pub-file-path">./papers/sentiment_springer2021.pdf</span>
+        <div style="display:flex;gap:var(--space-sm);flex-wrap:wrap;align-items:center;">
+          <span class="pub-file-type">Springer SNAM · 2021</span>
+          <span class="tag">NLP</span>
+          <span class="tag">Sentiment Analysis</span>
+        </div>
+      </div>
+      <div class="pub-body">
+        <h2 class="pub-title">Making Sense of Tweets Using Sentiment Analysis on Closely Related Topics</h2>
+        <p class="pub-authors">Sarvesh Bhatnagar, Nitin Choubey</p>
+        <p class="pub-venue">Social Network Analysis &amp; Mining · Springer · 2021</p>
+        <p class="pub-doi">DOI: 10.1007/s13278-021-00752-0</p>
+        <div class="pub-links">
+          <a href="https://link.springer.com/article/10.1007/s13278-021-00752-0" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">Springer →</a>
+          <a href="https://doi.org/10.1007/s13278-021-00752-0" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">DOI →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Paper 3 -->
+    <article class="pub-card">
+      <div class="pub-file-header">
+        <span class="pub-file-path">./papers/community_detection_ijca2020.pdf</span>
+        <div style="display:flex;gap:var(--space-sm);flex-wrap:wrap;align-items:center;">
+          <span class="pub-file-type">IJCA · 2020</span>
+          <span class="tag">Sentiment Analysis</span>
+          <span class="tag">Community Detection</span>
+        </div>
+      </div>
+      <div class="pub-body">
+        <h2 class="pub-title">A Review of Common Approaches to Sentiment Analysis and Community Detection</h2>
+        <p class="pub-authors">Sarvesh Bhatnagar, Maitreya Dixit, Nachiketa Prasad</p>
+        <p class="pub-venue">International Journal of Computer Applications (IJCA) · 2020</p>
+        <p class="pub-doi">DOI: 10.5120/ijca2020920027</p>
+        <div class="pub-links">
+          <a href="https://www.researchgate.net/publication/340672368_A_Review_of_Common_Approaches_to_Sentiment_Analysis_and_Community_Detection" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">ResearchGate →</a>
+          <a href="https://doi.org/10.5120/ijca2020920027" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">DOI →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Research Interests -->
+    <div style="margin-top:var(--space-xl);">
+      <span class="section-label">02 — interests</span>
+      <h2 class="section-title">Research <span class="accent">Interests</span></h2>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot card-dot-red"></div>
+          <div class="card-dot card-dot-amber"></div>
+          <div class="card-dot card-dot-green"></div>
+          <span class="card-filename">interests.json</span>
+        </div>
+        <div class="tags" style="padding:var(--space-md) 0 0;">
+          <span class="tag">Serverless Computing</span>
+          <span class="tag">Open-Source Ecosystems</span>
+          <span class="tag">Natural Language Processing</span>
+          <span class="tag">Sentiment Analysis</span>
+          <span class="tag">Community Detection</span>
+          <span class="tag">Social Network Analysis</span>
+          <span class="tag">LLM Evaluation</span>
+          <span class="tag">AI Reasoning</span>
+          <span class="tag">ML Infrastructure</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand"><span class="accent">~/sb$</span> Sarvesh Bhatnagar</div>
+        <div class="footer-copy">Developer · Researcher · Builder</div>
+      </div>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="index.html">home</a>
+        <a href="about.html">about</a>
+        <a href="research.html">research</a>
+        <a href="projects.html">projects</a>
+        <a href="blog/index.html">blog</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script src="js/terminal-app.js"></script>
 </body>
 </html>

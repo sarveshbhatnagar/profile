@@ -1,39 +1,46 @@
 /**
  * terminal-blog.js
  * Sarvesh Bhatnagar Portfolio — Blog System
- * Handles: post listing (ls output), post viewer, markdown editor/writer
+ *
+ * posts.json  → metadata index [{id, title, date, excerpt, tags, file?, content?}]
+ * posts/*.md  → one markdown file per post (fetched when `content` is absent)
+ *
+ * No ES module imports — single file loads reliably on static hosts and CDNs.
  */
 
 /* -------------------------------------------------------
-   Configuration
+   Configuration — paths resolve correctly from both
+   /blog/index.html and /blog/post.html
 ------------------------------------------------------- */
-const POSTS_URL = (function() {
-  // Resolve relative to this script's location
-  const path = window.location.pathname;
-  if (path.includes('/blog/')) {
-    return 'posts/posts.json';
-  }
-  return 'blog/posts/posts.json';
+const POSTS_BASE = (function () {
+  return window.location.pathname.includes('/blog/') ? 'posts/' : 'blog/posts/';
 })();
 
+function hasInlinePostBody(post) {
+  return post != null && typeof post.content === 'string';
+}
+
+function postsJsonUrl() {
+  return new URL(POSTS_BASE + 'posts.json', window.location.href).toString();
+}
+
 /* -------------------------------------------------------
-   Utility: Simple Markdown → HTML
+   Utility: Markdown → HTML
    Covers: headings, bold, italic, code blocks, inline code,
-   blockquotes, unordered/ordered lists, links, hr, paragraphs
+   blockquotes, unordered/ordered lists, links, images, hr
 ------------------------------------------------------- */
 function mdToHtml(md) {
   if (!md) return '';
 
   let html = md
-    // Escape HTML entities first
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 
-  // Fenced code blocks  ```lang\n...\n```
-  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
-    return `<pre><code class="lang-${lang || 'text'}">${code.trim()}</code></pre>`;
-  });
+  // Fenced code blocks
+  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) =>
+    `<pre><code class="lang-${lang || 'text'}">${code.trim()}</code></pre>`
+  );
 
   // Headings
   html = html.replace(/^###### (.+)$/gm, '<h6>$1</h6>');
@@ -49,167 +56,205 @@ function mdToHtml(md) {
   // Blockquotes
   html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
 
-  // Unordered lists — group consecutive items
-  html = html.replace(/((?:^[\*\-] .+\n?)+)/gm, (block) => {
-    const items = block.trim().split('\n').map(l => `<li>${l.replace(/^[\*\-] /, '')}</li>`).join('');
+  // Unordered lists
+  html = html.replace(/((?:^[\*\-] .+\n?)+)/gm, block => {
+    const items = block.trim().split('\n')
+      .map(l => `<li>${l.replace(/^[\*\-] /, '')}</li>`).join('');
     return `<ul>${items}</ul>`;
   });
 
   // Ordered lists
-  html = html.replace(/((?:^\d+\. .+\n?)+)/gm, (block) => {
-    const items = block.trim().split('\n').map(l => `<li>${l.replace(/^\d+\. /, '')}</li>`).join('');
+  html = html.replace(/((?:^\d+\. .+\n?)+)/gm, block => {
+    const items = block.trim().split('\n')
+      .map(l => `<li>${l.replace(/^\d+\. /, '')}</li>`).join('');
     return `<ol>${items}</ol>`;
   });
 
-  // Inline: bold, italic, inline code, links, images
-  html = html.replace(/\*\*(.+?)\*\*/g,  '<strong>$1</strong>');
-  html = html.replace(/\*(.+?)\*/g,      '<em>$1</em>');
-  html = html.replace(/`([^`]+)`/g,      '<code>$1</code>');
+  // Inline: bold, italic, inline code, images, links
+  html = html.replace(/\*\*(.+?)\*\*/g,         '<strong>$1</strong>');
+  html = html.replace(/\*(.+?)\*/g,              '<em>$1</em>');
+  html = html.replace(/`([^`]+)`/g,              '<code>$1</code>');
   html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img alt="$1" src="$2">');
   html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g,  '<a href="$2" target="_blank" rel="noopener">$1</a>');
 
-  // Paragraphs — wrap non-block-level lines
-  const lines = html.split('\n');
-  const out   = [];
-  let inBlock = false;
+  // Paragraphs
   const blockTags = ['<h1','<h2','<h3','<h4','<h5','<h6','<ul','<ol','<pre','<hr','<blockquote','</ul','</ol','</pre','</blockquote'];
+  const lines = html.split('\n');
+  const out = [];
+  let inBlock = false;
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trim();
-    if (!line) { inBlock = false; continue; }
-
-    const isBlock = blockTags.some(t => line.startsWith(t));
+  for (const line of lines) {
+    const l = line.trim();
+    if (!l) { inBlock = false; continue; }
+    const isBlock = blockTags.some(t => l.startsWith(t));
     if (isBlock) {
       inBlock = false;
-      out.push(line);
+      out.push(l);
+    } else if (!inBlock) {
+      out.push('<p>' + l);
+      inBlock = true;
     } else {
-      if (!inBlock) {
-        out.push('<p>' + line);
-        inBlock = true;
-      } else {
-        out[out.length - 1] += ' ' + line;
-      }
+      out[out.length - 1] += ' ' + l;
     }
   }
 
-  // Close open paragraphs
-  return out.map(line => {
-    if (line.startsWith('<p>') && !line.endsWith('</p>')) return line + '</p>';
-    return line;
-  }).join('\n');
+  return out.map(line =>
+    (line.startsWith('<p>') && !line.endsWith('</p>')) ? line + '</p>' : line
+  ).join('\n');
 }
 
 /* -------------------------------------------------------
-   Format date nicely
+   Date helpers
 ------------------------------------------------------- */
 function formatDate(dateStr) {
   if (!dateStr) return '';
   try {
     const d = new Date(dateStr + 'T00:00:00');
     return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-  } catch (e) {
-    return dateStr;
-  }
+  } catch { return dateStr; }
 }
 
-/* -------------------------------------------------------
-   Format date as ls-style: "Jan 15 2024"
-------------------------------------------------------- */
 function formatDateLs(dateStr) {
   if (!dateStr) return '---';
   try {
     const d = new Date(dateStr + 'T00:00:00');
     const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     return `${months[d.getMonth()]} ${String(d.getDate()).padStart(2,' ')} ${d.getFullYear()}`;
-  } catch (e) {
-    return dateStr;
-  }
+  } catch { return dateStr; }
 }
 
 /* -------------------------------------------------------
-   Fetch posts.json
+   Fetch posts index
 ------------------------------------------------------- */
 async function fetchPosts() {
-  const response = await fetch(POSTS_URL);
-  if (!response.ok) throw new Error(`HTTP ${response.status}`);
-  return response.json();
+  const res = await fetch(postsJsonUrl(), { cache: 'no-store' });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
 }
 
 /* -------------------------------------------------------
    Blog Listing Page (blog/index.html)
-   Renders posts in terminal ls -la style
+   Renders posts as terminal ls -la output + tag filter
 ------------------------------------------------------- */
 (function initBlogListing() {
   const container = document.getElementById('blog-listing');
   if (!container) return;
+
+  function uniqueSortedTags(posts) {
+    const set = new Set();
+    for (const p of posts) {
+      for (const t of p.tags || []) set.add(t);
+    }
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  }
+
+  function countPostsWithTag(posts, tag) {
+    return posts.filter(p => (p.tags || []).includes(tag)).length;
+  }
+
+  function escAttr(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+  }
+
+  /** Attribute value: quote only; do not entity-encode & (breaks dataset / matching). */
+  function attrQuote(s) {
+    return String(s).replace(/"/g, '&quot;');
+  }
 
   container.innerHTML = '<div class="loading">Fetching posts</div>';
 
   fetchPosts()
     .then(posts => {
       if (!posts || posts.length === 0) {
-        container.innerHTML = '<div class="error-state"><div class="error-code">404</div><div class="error-msg">No posts found.</div><div class="error-hint">// Check back soon</div></div>';
+        container.innerHTML = `
+          <div class="error-state">
+            <div class="error-code">404</div>
+            <div class="error-msg">No posts found.</div>
+            <div class="error-hint">// Add .md files and entries to posts.json</div>
+          </div>`;
         return;
       }
 
-      // Sort newest first
       posts.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-      // Update post count in terminal title
       const countEl = document.getElementById('post-count');
       if (countEl) countEl.textContent = posts.length;
 
-      const rows = posts.map(post => {
-        const tags = (post.tags || []).map(t =>
-          `<span class="tag">${t}</span>`
-        ).join('');
+      const tagList = uniqueSortedTags(posts);
+      const filterBarHtml =
+        tagList.length === 0
+          ? ''
+          : `<div class="filter-bar blog-tag-filter" role="group" aria-label="Filter posts by tag">
+        <span class="filter-label">tags</span>
+        <button type="button" class="filter-btn active" data-filter-tag="all">all (${posts.length})</button>
+        ${tagList
+          .map(
+            t =>
+              `<button type="button" class="filter-btn" data-filter-tag="${attrQuote(t)}">${escAttr(t)} (${countPostsWithTag(posts, t)})</button>`
+          )
+          .join('')}
+      </div>`;
 
-        return `
-          <a class="ls-entry" href="post.html?id=${encodeURIComponent(post.id)}" aria-label="Read: ${post.title}">
+      const rows = posts
+        .map(post => {
+          const tags = (post.tags || []).map(t => `<span class="tag">${escAttr(t)}</span>`).join('');
+          const filename = post.file || post.id + '.md';
+          return `
+          <a class="ls-entry" href="post.html?id=${encodeURIComponent(post.id)}" data-post-id="${attrQuote(post.id)}" aria-label="Read: ${escAttr(post.title)}">
             <span class="ls-perms">-rw-r--r--</span>
             <span class="ls-date">${formatDateLs(post.date)}</span>
-            <span class="ls-name">${post.id}.md</span>
+            <span class="ls-name">${escAttr(filename)}</span>
             <span class="ls-tags">${tags}</span>
           </a>`;
-      }).join('');
-
-      // Also render a summary list below
-      const summaries = posts.map(post => {
-        const tags = (post.tags || []).map(t =>
-          `<span class="tag">${t}</span>`
-        ).join('');
-        return `
-          <div class="blog-summary-item" style="padding: var(--space-md) 0; border-bottom: 1px solid var(--border);">
-            <div style="display:flex; align-items:baseline; gap:var(--space-md); flex-wrap:wrap; margin-bottom:0.35em;">
-              <a href="post.html?id=${encodeURIComponent(post.id)}" style="font-size:1rem; font-weight:700; color:var(--text);">${post.title}</a>
-              <span style="font-size:0.75rem; color:var(--amber);">${formatDate(post.date)}</span>
-            </div>
-            <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:0.5em;">${post.excerpt || ''}</p>
-            <div class="tags">${tags}</div>
-          </div>`;
-      }).join('');
+        })
+        .join('');
 
       container.innerHTML = `
-        <div class="terminal-window mb-lg">
+        ${filterBarHtml}
+        <div class="terminal-window blog-listing-terminal">
           <div class="terminal-titlebar">
             <div class="terminal-titlebar-dots">
               <div class="t-dot t-dot-red"></div>
               <div class="t-dot t-dot-amber"></div>
               <div class="t-dot t-dot-green"></div>
             </div>
-            <span class="terminal-title">sarvesh@blog:~$ ls -la ./posts/</span>
+            <span class="terminal-title">sarvesh@blog:~/posts$ ls -la</span>
           </div>
           <div class="terminal-body">
             <div class="ls-header">
               <span>PERMISSIONS</span>
               <span>DATE</span>
-              <span>FILENAME</span>
+              <span>FILE</span>
               <span style="text-align:right">TAGS</span>
             </div>
             ${rows}
           </div>
-        </div>
-        <div id="blog-summaries" class="stagger">${summaries}</div>`;
+        </div>`;
+
+      if (tagList.length === 0) return;
+
+      const filterBtns = container.querySelectorAll('.blog-tag-filter [data-filter-tag]');
+      const entries = container.querySelectorAll('.ls-entry');
+
+      function applyTagFilter(selected) {
+        entries.forEach(el => {
+          const id = el.dataset.postId;
+          const post = posts.find(p => p.id === id);
+          if (!post) return;
+          const show =
+            selected === 'all' || (post.tags || []).includes(selected);
+          el.hidden = !show;
+        });
+        filterBtns.forEach(b => {
+          b.classList.toggle('active', b.dataset.filterTag === selected);
+        });
+      }
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          applyTagFilter(btn.dataset.filterTag);
+        });
+      });
     })
     .catch(err => {
       container.innerHTML = `
@@ -223,7 +268,8 @@ async function fetchPosts() {
 
 /* -------------------------------------------------------
    Blog Post Viewer (blog/post.html)
-   Reads ?id=slug, finds post, renders it
+   Reads ?id=slug → fetches metadata from posts.json
+   → if `content` is set, renders that HTML; else fetches .md → markdown → HTML
 ------------------------------------------------------- */
 (function initPostViewer() {
   const container = document.getElementById('post-viewer');
@@ -237,7 +283,7 @@ async function fetchPosts() {
       <div class="error-state">
         <div class="error-code">400</div>
         <div class="error-msg">No post ID specified.</div>
-        <div class="error-hint">// Usage: post.html?id=slug-here</div>
+        <div class="error-hint">// Usage: post.html?id=slug</div>
         <div style="margin-top:var(--space-lg)"><a class="btn btn-outline btn-sm" href="index.html">← back to posts</a></div>
       </div>`;
     return;
@@ -253,36 +299,46 @@ async function fetchPosts() {
           <div class="error-state">
             <div class="error-code">404</div>
             <div class="error-msg">Post not found: <code>${id}</code></div>
-            <div class="error-hint">// No entry matching that slug</div>
+            <div class="error-hint">// No entry matching that slug in posts.json</div>
             <div style="margin-top:var(--space-lg)"><a class="btn btn-outline btn-sm" href="index.html">← back to posts</a></div>
           </div>`;
         return;
       }
 
-      // Update page title
-      document.title = `${post.title} — Sarvesh Bhatnagar`;
+      function renderPostBody(bodyHtml) {
+        document.title = `${post.title} — Sarvesh Bhatnagar`;
 
-      const tags = (post.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
+        const tags = (post.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
 
-      // Render content: if it looks like HTML use it, otherwise parse as markdown
-      const isHtml = post.content && (post.content.trim().startsWith('<') || post.content.includes('</p>'));
-      const bodyHtml = isHtml ? post.content : mdToHtml(post.content || '');
+        container.innerHTML = `
+            <div class="post-meta-bar">
+              <div class="post-meta-info">
+                <span class="meta-date">// ${formatDate(post.date)}</span>
+                <span class="meta-author">sarveshbhatnagar</span>
+              </div>
+              <div class="tags">${tags}</div>
+            </div>
+            <div class="post-content fade-in">
+              <h1>${post.title}</h1>
+              ${bodyHtml}
+            </div>
+            <div style="margin-top:var(--space-lg);">
+              <a class="btn btn-ghost btn-sm" href="index.html">← all posts</a>
+            </div>`;
+      }
 
-      container.innerHTML = `
-        <div class="post-meta-bar">
-          <div class="post-meta-info">
-            <span><span class="meta-date">// ${formatDate(post.date)}</span></span>
-            <span class="meta-author">sarveshbhatnagar</span>
-          </div>
-          <div class="tags">${tags}</div>
-        </div>
-        <div class="post-content fade-in">
-          <h1>${post.title}</h1>
-          ${bodyHtml}
-        </div>
-        <div style="margin-top:var(--space-lg); display:flex; gap:var(--space-md);">
-          <a class="btn btn-ghost btn-sm" href="index.html">← all posts</a>
-        </div>`;
+      if (hasInlinePostBody(post)) {
+        renderPostBody(post.content);
+        return;
+      }
+
+      const filename = post.file || post.id + '.md';
+      return fetch(new URL(POSTS_BASE + filename, window.location.href).toString(), { cache: 'no-store' })
+        .then(res => {
+          if (!res.ok) throw new Error(`Could not load ${filename} (HTTP ${res.status})`);
+          return res.text();
+        })
+        .then(md => renderPostBody(mdToHtml(md)));
     })
     .catch(err => {
       container.innerHTML = `
@@ -296,8 +352,8 @@ async function fetchPosts() {
 })();
 
 /* -------------------------------------------------------
-   Blog Writer (blog/write.html)
-   Live preview, generate JSON entry, copy to clipboard
+   Blog Writer (blog/write.html) — kept for convenience
+   Generates a posts.json entry to copy-paste
 ------------------------------------------------------- */
 (function initBlogWriter() {
   const editorTextarea = document.getElementById('md-editor');
@@ -311,37 +367,30 @@ async function fetchPosts() {
 
   if (!editorTextarea) return;
 
-  // Set default date to today
   if (dateInput && !dateInput.value) {
     const today = new Date();
-    const y = today.getFullYear();
-    const m = String(today.getMonth() + 1).padStart(2, '0');
-    const d = String(today.getDate()).padStart(2, '0');
-    dateInput.value = `${y}-${m}-${d}`;
+    dateInput.value = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
   }
 
-  // Live preview update
   function updatePreview() {
     if (!previewPanel) return;
-    const md = editorTextarea.value;
-    previewPanel.innerHTML = mdToHtml(md) || '<span style="color:var(--text-faint)">// Preview will appear here...</span>';
+    previewPanel.innerHTML = mdToHtml(editorTextarea.value)
+      || '<span style="color:var(--text-faint)">// Preview will appear here...</span>';
   }
 
   editorTextarea.addEventListener('input', updatePreview);
 
-  // Handle tab key in editor
   editorTextarea.addEventListener('keydown', e => {
     if (e.key === 'Tab') {
       e.preventDefault();
-      const start = editorTextarea.selectionStart;
-      const end   = editorTextarea.selectionEnd;
-      editorTextarea.value = editorTextarea.value.slice(0, start) + '  ' + editorTextarea.value.slice(end);
-      editorTextarea.selectionStart = editorTextarea.selectionEnd = start + 2;
+      const s = editorTextarea.selectionStart;
+      const e2 = editorTextarea.selectionEnd;
+      editorTextarea.value = editorTextarea.value.slice(0, s) + '  ' + editorTextarea.value.slice(e2);
+      editorTextarea.selectionStart = editorTextarea.selectionEnd = s + 2;
       updatePreview();
     }
   });
 
-  // Generate slug from title
   function toSlug(str) {
     return str.toLowerCase()
       .replace(/[^a-z0-9\s-]/g, '')
@@ -350,7 +399,6 @@ async function fetchPosts() {
       .trim();
   }
 
-  // Generate JSON
   if (generateBtn) {
     generateBtn.addEventListener('click', () => {
       const title   = (titleInput?.value || 'Untitled Post').trim();
@@ -358,49 +406,32 @@ async function fetchPosts() {
       const rawTags = (tagsInput?.value  || '').trim();
       const content = editorTextarea.value.trim();
 
-      const tags = rawTags
-        ? rawTags.split(',').map(t => t.trim()).filter(Boolean)
-        : [];
+      const tags = rawTags ? rawTags.split(',').map(t => t.trim()).filter(Boolean) : [];
+      const slug = toSlug(title) || 'untitled-post';
 
-      // Convert markdown to HTML for the content field
-      const htmlContent = mdToHtml(content);
+      // Build excerpt from first paragraph
+      const firstPara = content.split(/\n\n/)[0].replace(/^#+ /, '').replace(/[*_`]/g, '').trim();
+      const excerpt = firstPara.length > 160 ? firstPara.slice(0, 157) + '...' : firstPara;
 
-      // Build excerpt from first non-empty paragraph (strip tags, truncate)
-      const excerptMatch = htmlContent.match(/<p>([\s\S]*?)<\/p>/);
-      let excerpt = excerptMatch ? excerptMatch[1].replace(/<[^>]+>/g, '') : '';
-      if (excerpt.length > 160) excerpt = excerpt.slice(0, 157) + '...';
+      const entry = { id: slug, title, date, excerpt, tags, file: slug + '.md' };
+      const json  = JSON.stringify(entry, null, 2);
 
-      const entry = {
-        id:      toSlug(title) || 'untitled-post',
-        title:   title,
-        date:    date,
-        excerpt: excerpt,
-        content: htmlContent,
-        tags:    tags
-      };
-
-      const json = JSON.stringify(entry, null, 2);
+      const instructions = `// 1. Save the markdown below as: blog/posts/${slug}.md\n// 2. Add this JSON entry to: blog/posts/posts.json\n\n${json}`;
 
       if (jsonOutput) {
-        jsonOutput.textContent = json;
+        jsonOutput.textContent = instructions;
         jsonOutput.classList.add('visible');
       }
-
-      // Enable copy button
       if (copyBtn) copyBtn.disabled = false;
     });
   }
 
-  // Copy JSON to clipboard
   if (copyBtn) {
     copyBtn.addEventListener('click', () => {
       if (!jsonOutput) return;
-      const text = jsonOutput.textContent;
-      if (!text) return;
-      window.copyToClipboard(text, copyBtn);
+      window.copyToClipboard(jsonOutput.textContent, copyBtn);
     });
   }
 
-  // Initial preview state
   updatePreview();
 })();

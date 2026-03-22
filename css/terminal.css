@@ -295,6 +295,8 @@ pre code { background: none; border: none; padding: 0; color: var(--text); }
    12. Projects
 ------------------------------------------------------- */
 .filter-bar { display: flex; gap: var(--space-sm); flex-wrap: wrap; margin-bottom: var(--space-lg); padding: var(--space-md); background: var(--surface); border: 1px solid var(--border); border-radius: 6px; align-items: center; }
+.blog-tag-filter { margin-bottom: var(--space-md); }
+.terminal-body .ls-entry[hidden] { display: none !important; }
 .filter-label { font-size: 0.75rem; color: var(--text-faint); margin-right: var(--space-sm); }
 .filter-label::before { content: '$ filter --cat '; }
 .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; transition: var(--transition); display: flex; flex-direction: column; }
@@ -459,6 +461,20 @@ pre code { background: none; border: none; padding: 0; color: var(--text); }
 .ascii-link-item .link-desc   { color: var(--text-faint); font-size: 0.78rem; }
 .ascii-link-item .link-arrow  { color: var(--text-faint); margin-left: auto; }
 .ascii-link-item:hover .link-arrow { color: var(--green); }
+
+/* -------------------------------------------------------
+   19b. Projects Grid & Filter Buttons
+------------------------------------------------------- */
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--space-lg); }
+.filter-btn {
+  font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);
+  background: transparent; border: 1px solid var(--border); border-radius: 4px;
+  padding: 0.35em 0.8em; cursor: pointer; transition: var(--transition);
+}
+.filter-btn::before { content: '$ '; color: var(--text-faint); }
+.filter-btn:hover { color: var(--green); border-color: var(--border-hover); background: rgba(0,255,136,0.04); }
+.filter-btn.active { color: var(--green); border-color: var(--green); background: rgba(0,255,136,0.06); }
+.filter-btn.active::before { color: var(--green); }
 
 /* -------------------------------------------------------
    20. Responsive
