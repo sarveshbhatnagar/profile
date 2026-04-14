@@ -27,18 +27,6 @@ window.BLOG_POSTS = [
     ]
   },
   {
-    "id": "test-post",
-    "title": "test post",
-    "date": "2026-04-12",
-    "excerpt": "Write your blog post content here in Markdown format.",
-    "content": "<h1>test post</h1>\n<p>Write your blog post content here in Markdown format.</p>\n<h2>Section Example</h2>\n<p>You can use:</p>\n<ul>\n<li><strong>Bold text</strong></li>\n<li><em>Italic text</em>  </li>\n<li><a href=\"https://example.com\">Links</a></li>\n<li>Code blocks</li>\n<li>Lists</li>\n<li>And much more!</li>\n</ul>\n<blockquote>\n<p>This is a blockquote example</p>\n</blockquote>\n<pre><code class=\"language-python\"># Code example\ndef hello_world():\n    print(&quot;Hello, World!&quot;)\n</code></pre>\n<p>Your content goes here...</p>",
-    "tags": [
-      "blog",
-      "thoughts",
-      "personal"
-    ]
-  },
-  {
     "id": "growing-through-two-sides",
     "title": "Growing Through Two Sides of a Coin",
     "date": "2021-01-15",
