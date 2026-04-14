@@ -1,4 +1,4 @@
-[
+window.BLOG_POSTS = [
   {
     "id": "understanding-yourself",
     "title": "Understanding Yourself",
@@ -62,4 +62,4 @@
       "engineering"
     ]
   }
-]
+];

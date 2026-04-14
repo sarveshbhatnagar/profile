@@ -125,8 +125,11 @@ function formatDateLs(dateStr) {
 
 /* -------------------------------------------------------
    Fetch posts index
+   Prefers window.BLOG_POSTS (set by posts-data.js, works on
+   file:// and http) and falls back to fetching posts.json.
 ------------------------------------------------------- */
 async function fetchPosts() {
+  if (Array.isArray(window.BLOG_POSTS)) return window.BLOG_POSTS;
   const res = await fetch(postsJsonUrl(), { cache: 'no-store' });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return res.json();
