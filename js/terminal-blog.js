@@ -311,6 +311,17 @@ async function fetchPosts() {
       function renderPostBody(bodyHtml) {
         document.title = `${post.title} — Sarvesh Bhatnagar`;
 
+        // Update meta tags for social sharing (helps crawlers that execute JS)
+        const desc = post.excerpt || `${post.title} — Blog post by Sarvesh Bhatnagar`;
+        const url  = window.location.href;
+        const setMeta = (sel, val) => { const el = document.querySelector(sel); if (el) el.setAttribute('content', val); };
+        setMeta('meta[name="description"]',          desc);
+        setMeta('meta[property="og:title"]',         post.title);
+        setMeta('meta[property="og:description"]',   desc);
+        setMeta('meta[property="og:url"]',           url);
+        setMeta('meta[name="twitter:title"]',        post.title);
+        setMeta('meta[name="twitter:description"]',  desc);
+
         const tags = (post.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
 
         container.innerHTML = `
