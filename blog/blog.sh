@@ -2,7 +2,7 @@
 
 # Blog management script for Sarvesh Bhatnagar's Portfolio
 
-BLOG_DIR="/Users/sarveshbhatnagar/Downloads/profile/blog"
+BLOG_DIR="/Users/sarveshbhatnagar/Development/profile/blog"
 MARKDOWN_DIR="$BLOG_DIR/markdown"
 BUILD_SCRIPT="$BLOG_DIR/build_blog.py"
 
@@ -114,10 +114,10 @@ build_posts() {
             exit 1
         fi
         
-        python3 "$BUILD_SCRIPT" --file "$filepath"
+        python3 "$BUILD_SCRIPT" --blog-dir "$BLOG_DIR" --file "$filepath"
     else
         # Build all files
-        python3 "$BUILD_SCRIPT" --build-all
+        python3 "$BUILD_SCRIPT" --blog-dir "$BLOG_DIR" --build-all
     fi
     
     if [ $? -eq 0 ]; then
