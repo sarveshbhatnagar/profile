@@ -66,7 +66,7 @@ description: A blog post by Sarvesh Bhatnagar about $title
 keywords: blog, thoughts, personal
 date: $date
 og_image: https://sarveshbhatnagar.com/images/user-3.jpg
-og_url: https://sarveshbhatnagar.com/blog/${filename}.html
+og_url: https://sarveshbhatnagar.com/blog/${filename}
 ---
 
 # $title
