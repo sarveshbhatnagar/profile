@@ -216,8 +216,27 @@
 
     if (titleEl && article.title) titleEl.value = article.title.trim();
 
-    // Readability exposes the byline (author name) when it finds it
-    if (authorEl && article.byline) authorEl.value = article.byline.trim();
+    // Readability exposes the byline when it finds it; fall back to meta tags
+    // which Medium/scribe.rip reliably populate even when byline parsing fails.
+    if (authorEl) {
+      const byline = article.byline?.trim();
+      if (byline) {
+        authorEl.value = byline;
+      } else {
+        const parser2 = new DOMParser();
+        const doc2 = parser2.parseFromString(html, 'text/html');
+        const metaSelectors = [
+          'meta[name="author"]',
+          'meta[property="article:author"]',
+          'meta[name="twitter:creator"]',
+          'meta[property="og:article:author"]',
+        ];
+        for (const sel of metaSelectors) {
+          const val = doc2.querySelector(sel)?.getAttribute('content')?.trim();
+          if (val) { authorEl.value = val; break; }
+        }
+      }
+    }
 
     // Always record the original URL as source
     if (sourceEl) sourceEl.value = rawUrl;
