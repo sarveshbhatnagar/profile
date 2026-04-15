@@ -112,7 +112,7 @@
     );
     if (getDataJs.ok) {
       const dataJsMeta = await getDataJs.json();
-      await fetch(`${API_BASE}/repos/${OWNER}/${REPO}/contents/${POSTS_DATA_PATH}`, {
+      const syncRes = await fetch(`${API_BASE}/repos/${OWNER}/${REPO}/contents/${POSTS_DATA_PATH}`, {
         method: 'PUT',
         headers: apiHeaders(token),
         body: JSON.stringify({
@@ -122,6 +122,10 @@
           branch: BRANCH,
         }),
       });
+      if (!syncRes.ok) {
+        const err = await syncRes.json().catch(() => ({}));
+        throw new Error(`posts.json updated but posts-data.js sync failed (${syncRes.status}): ${err.message || 'unknown error'}. Run: python3 blog/build_blog.py --build-all`);
+      }
     }
 
     return { slug, url: `https://sarveshbhatnagar.com/blog/post.html?id=${slug}` };
