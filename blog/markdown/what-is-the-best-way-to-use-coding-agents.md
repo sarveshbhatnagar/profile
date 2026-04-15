@@ -7,7 +7,7 @@ og_image: https://sarveshbhatnagar.com/images/user-3.jpg
 og_url: https://sarveshbhatnagar.com/blog/what-is-the-best-way-to-use-coding-agents
 ---
 
-# Introduction
+## Introduction
 
 I’ve been using coding agents very actively still, nowhere near the [“$250K usage”](https://www.businessinsider.com/jensen-huang-500k-engineers-250k-ai-tokens-nvidia-compute-2026-3) benchmark that recently came up in the industry headlines, it’s still significant in my view. Maybe I *am* the frog in the well but I’m learning, just as I did (and still do) as a software developer.
 
@@ -26,7 +26,7 @@ With that context, here are some of my key learnings:
 
 ---
 
-# What Have I Been Doing?
+## What Have I Been Doing?
 
 Over the past year, I’ve gone through multiple phases—starting as a skeptic (back when coding agents like GitHub Copilot were just emerging), then becoming a fan, then skeptical again, and now settling somewhere in between.
 
@@ -43,7 +43,7 @@ That balance is still something I’m figuring out.
 
 ---
 
-## Learning 1: Use LLMs to Explore, Learn, and Brainstorm Heavily
+### Learning 1: Use LLMs to Explore, Learn, and Brainstorm Heavily
 
 LLMs are excellent for exploration. They help you:
 
@@ -57,7 +57,7 @@ Remember: LLMs are token predictors. Better input → better output.
 
 ---
 
-## Learning 2: Don’t Trust LLMs Blindly
+### Learning 2: Don’t Trust LLMs Blindly
 
 LLMs can and will make bad decisions.
 
@@ -65,7 +65,7 @@ I learned this the hard way. In one project, I relied too heavily on an LLM for 
 
 ---
 
-## Learning 3: Rein in Generative LLMs with Critical Thinking and Delegation
+### Learning 3: Rein in Generative LLMs with Critical Thinking and Delegation
 
 LLMs generate—they don’t reason deeply.
 
@@ -87,7 +87,7 @@ But the key responsibility still lies with you:
 
 ---
 
-## Learning 4: Use Community Groundwork Heavily
+### Learning 4: Use Community Groundwork Heavily
 
 The community is moving incredibly fast:
 
@@ -106,7 +106,7 @@ Actively:
 
 ---
 
-## Learning 5: The Developer’s Role Is Changing
+### Learning 5: The Developer’s Role Is Changing
 
 The role is shifting from:
 
@@ -122,7 +122,7 @@ The bottleneck is no longer typing—it’s **thinking and decision-making**.I b
 
 ---
 
-## Learning 6: Make Peace with Delegation
+### Learning 6: Make Peace with Delegation
 
 This is the hardest but most important shift.
 
@@ -144,6 +144,6 @@ You’ll still move significantly faster. If you don’t fully delegate, you’r
 
 ---
 
-# Final Thoughts
+## Final Thoughts
 
 LLMs are not magic—they are powerful but flawed collaborators. We will have to learn to co-exist by being better thinkers and know when to trust and when not to.
