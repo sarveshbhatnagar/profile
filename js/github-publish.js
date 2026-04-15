@@ -95,7 +95,34 @@
 
     const { sha, posts } = await readPostsJson(token);
     const updated = [entry, ...posts.filter(p => p.id !== slug)];
-    await writePostsJson(token, sha, updated, `blog: add "${title}"`);
+
+    // Write posts.json
+    const writeResult = await writePostsJson(token, sha, updated, `blog: add "${title}"`);
+
+    // Also write posts-data.js so post.html (which loads it as a script and
+    // prefers window.BLOG_POSTS over fetching posts.json) gets the new post.
+    const postsDataJs = 'window.BLOG_POSTS = ' + JSON.stringify(updated, null, 2) + ';\n';
+    const postsDataEncoded = btoa(unescape(encodeURIComponent(postsDataJs)));
+    const POSTS_DATA_PATH = 'blog/posts/posts-data.js';
+
+    // Get current SHA of posts-data.js (required for update)
+    const getDataJs = await fetch(
+      `${API_BASE}/repos/${OWNER}/${REPO}/contents/${POSTS_DATA_PATH}?ref=${BRANCH}`,
+      { headers: apiHeaders(token) }
+    );
+    if (getDataJs.ok) {
+      const dataJsMeta = await getDataJs.json();
+      await fetch(`${API_BASE}/repos/${OWNER}/${REPO}/contents/${POSTS_DATA_PATH}`, {
+        method: 'PUT',
+        headers: apiHeaders(token),
+        body: JSON.stringify({
+          message: `blog: sync posts-data.js for "${title}"`,
+          content: postsDataEncoded,
+          sha: dataJsMeta.sha,
+          branch: BRANCH,
+        }),
+      });
+    }
 
     return { slug, url: `https://sarveshbhatnagar.com/blog/post.html?id=${slug}` };
   }
