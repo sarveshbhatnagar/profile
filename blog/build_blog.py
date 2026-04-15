@@ -85,7 +85,7 @@ class BlogGenerator:
         date = metadata.get("date", datetime.now().strftime("%B %d, %Y"))
         og_image = metadata.get("og_image", "")
         og_url = metadata.get(
-            "og_url", f"https://sarveshbhatnagar.com/blog/{filename}.html"
+            "og_url", f"https://sarveshbhatnagar.com/blog/{filename}"
         )
 
         # Replace placeholders in template

@@ -4,7 +4,7 @@ description: I have been experimenting with coding agents for a while, and in th
 keywords: llm, cost, thoughts, agents, code
 date: April 14, 2026
 og_image: https://sarveshbhatnagar.com/images/user-3.jpg
-og_url: https://sarveshbhatnagar.com/blog/llms-and-cost.html
+og_url: https://sarveshbhatnagar.com/blog/what-is-the-best-way-to-use-coding-agents
 ---
 
 # Introduction
