@@ -347,9 +347,20 @@ pre code { background: none; border: none; padding: 0; color: var(--text); }
 .post-content li { margin-bottom: 0.4em; color: var(--text); } .post-content li::marker { color: var(--green); }
 .post-content blockquote { border-left: 3px solid var(--green); padding: var(--space-sm) var(--space-md); color: var(--text-muted); background: var(--surface-alt); border-radius: 0 4px 4px 0; margin: var(--space-md) 0; font-style: italic; }
 .post-content a { color: var(--cyan); } .post-content a:hover { color: var(--green); }
+.post-source-attrib { font-size: .78rem; font-family: var(--font-mono); color: var(--text-faint); border-left: 2px solid var(--border-hover); padding: .3em .75em; margin-bottom: var(--space-lg); }
+.post-source-attrib a { color: var(--text-muted); } .post-source-attrib a:hover { color: var(--cyan); }
 .post-content strong { color: var(--amber); font-weight: 700; } .post-content em { color: var(--text-muted); font-style: italic; }
 .post-content hr { border: none; border-top: 1px solid var(--border); margin: var(--space-lg) 0; }
-.post-content pre { margin: var(--space-md) 0; }
+/* Code block wrapper injected by enhanceCodeBlocks() */
+.post-code-block { margin: var(--space-lg) 0; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+.post-code-header { display: flex; align-items: center; justify-content: space-between; background: var(--surface-alt); border-bottom: 1px solid var(--border); padding: .35em var(--space-md); }
+.post-code-lang { font-family: var(--font-mono); font-size: .7rem; font-weight: 600; color: var(--amber); text-transform: uppercase; letter-spacing: .05em; }
+.post-code-copy { background: none; border: none; color: var(--text-faint); cursor: pointer; font-family: var(--font-mono); font-size: .72rem; padding: 0; transition: color .15s; }
+.post-code-copy:hover { color: var(--green); }
+/* pre inside .post-code-block loses its own border/radius/margin — the wrapper owns those */
+.post-code-block pre { margin: 0; border: none; border-radius: 0; }
+/* standalone pre outside a wrapper (e.g. write.html preview) keeps normal spacing */
+.post-content pre:not(.post-code-block > pre) { margin: var(--space-md) 0; }
 
 /* -------------------------------------------------------
    15. Blog Writer / Editor

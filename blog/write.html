@@ -6,6 +6,98 @@
   <meta name="description" content="Blog writer — create and format posts for Sarvesh Bhatnagar's portfolio." />
   <title>Write Post — Sarvesh Bhatnagar</title>
   <link rel="stylesheet" href="../css/terminal.css" />
+  <style>
+    .import-section {
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+      margin-bottom: 2rem;
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--glass-border);
+      border-radius: .75rem;
+      background: rgba(255,255,255,.03);
+    }
+    .import-label {
+      font-family: var(--font-head);
+      font-size: .75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--text-muted);
+    }
+    .import-row {
+      display: flex;
+      gap: .5rem;
+    }
+    .import-row .glass-input {
+      flex: 1;
+      min-width: 0;
+    }
+    .import-row .btn {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .import-status {
+      font-size: .8rem;
+      font-family: var(--font-mono);
+      min-height: 1.2em;
+      color: var(--text-faint);
+    }
+    .import-status[data-type="error"]   { color: #f87171; }
+    .import-status[data-type="success"] { color: var(--green); }
+    .import-status[data-type="info"]    { color: var(--cyan); }
+
+    /* GitHub publish section */
+    .publish-section {
+      margin-top: 2rem;
+      padding: 1.25rem;
+      border: 1px solid var(--glass-border);
+      border-radius: .75rem;
+      background: rgba(255,255,255,.03);
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+    }
+    .publish-section-label {
+      font-family: var(--font-head);
+      font-size: .75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--text-muted);
+    }
+    .token-row {
+      display: flex;
+      gap: .5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .token-row .glass-input {
+      flex: 1;
+      min-width: 0;
+      font-family: var(--font-mono);
+      font-size: .8rem;
+    }
+    #gh-token-status {
+      font-size: .78rem;
+      font-family: var(--font-mono);
+      color: var(--text-faint);
+    }
+    #gh-token-status[data-type="success"] { color: var(--green); }
+    #gh-token-status[data-type="error"]   { color: #f87171; }
+    #gh-token-status[data-type="warn"]    { color: #fbbf24; }
+    #publish-status {
+      font-size: .8rem;
+      font-family: var(--font-mono);
+      min-height: 1.2em;
+      color: var(--text-faint);
+      word-break: break-all;
+    }
+    #publish-status[data-type="success"] { color: var(--green); }
+    #publish-status[data-type="error"]   { color: #f87171; }
+    #publish-status[data-type="info"]    { color: var(--cyan); }
+    #publish-status a { color: inherit; text-decoration: underline; }
+  </style>
 </head>
 <body>
 
@@ -48,6 +140,23 @@
           </p>
         </div>
 
+        <!-- Import from URL -->
+        <div class="import-section reveal">
+          <div class="import-label">Import from URL</div>
+          <div class="import-row">
+            <input
+              type="url"
+              id="import-url"
+              class="glass-input"
+              placeholder="https://medium.com/…"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <button id="import-btn" class="btn btn-cyan btn-sm">import</button>
+          </div>
+          <div id="import-status" class="import-status"></div>
+        </div>
+
         <!-- Instructional notice -->
         <div class="writer-notice" role="note">
           <strong>How to publish:</strong> Fill in the fields below, write your post in markdown,
@@ -70,6 +179,16 @@
             <label for="post-tags">Tags</label>
             <input type="text" id="post-tags" class="glass-input"
                    placeholder="tag1, tag2, tag3" autocomplete="off" />
+          </div>
+          <div class="field-group">
+            <label for="post-author">Original Author <span style="color:var(--text-faint);font-weight:400">(optional — for imported posts)</span></label>
+            <input type="text" id="post-author" class="glass-input"
+                   placeholder="e.g. Jane Doe" autocomplete="off" />
+          </div>
+          <div class="field-group">
+            <label for="post-source">Source URL <span style="color:var(--text-faint);font-weight:400">(optional — original article link)</span></label>
+            <input type="url" id="post-source" class="glass-input"
+                   placeholder="https://medium.com/…" autocomplete="off" />
           </div>
         </div>
 
@@ -118,6 +237,32 @@
           </a>
         </div>
 
+        <!-- Publish to GitHub -->
+        <div class="publish-section">
+          <div class="publish-section-label">Publish to GitHub</div>
+
+          <!-- Token setup -->
+          <div class="token-row">
+            <input
+              type="password"
+              id="gh-token-input"
+              class="glass-input"
+              placeholder="GitHub PAT (contents:write) — stored in localStorage"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <button id="gh-save-token" class="btn btn-outline btn-sm">save</button>
+            <button id="gh-clear-token" class="btn btn-ghost btn-sm" style="display:none">clear</button>
+          </div>
+          <div id="gh-token-status"></div>
+
+          <!-- Publish action -->
+          <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
+            <button id="publish-btn" class="btn btn-primary">Publish to GitHub</button>
+          </div>
+          <div id="publish-status"></div>
+        </div>
+
         <!-- JSON output -->
         <div class="json-output-section">
           <div style="font-family:var(--font-head);font-size:.85rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem">
@@ -157,5 +302,10 @@
 
 <script src="../js/terminal-app.js"></script>
 <script src="../js/terminal-blog.js"></script>
+<!-- Import feature dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/@mozilla/readability@0.5.0/Readability.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/turndown@7.2.0/dist/turndown.js"></script>
+<script src="../js/blog-import.js"></script>
+<script src="../js/github-publish.js"></script>
 </body>
 </html>

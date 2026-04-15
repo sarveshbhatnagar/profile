@@ -32,54 +32,62 @@ function postsJsonUrl() {
 function mdToHtml(md) {
   if (!md) return '';
 
-  let html = md
+  // Phase 1: Extract fenced code blocks as placeholders so their content
+  // is never touched by heading/list/paragraph transforms.
+  const codeBlocks = [];
+  let s = md.replace(/```(\w*)\r?\n([\s\S]*?)```/g, (_, lang, code) => {
+    const idx = codeBlocks.length;
+    const escaped = code.trim()
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+    codeBlocks.push(`<pre><code class="lang-${lang || 'text'}">${escaped}</code></pre>`);
+    return `\x00BLOCK${idx}\x00`;
+  });
+
+  // Phase 2: HTML-encode remaining text (code blocks already encoded above)
+  s = s
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 
-  // Fenced code blocks
-  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) =>
-    `<pre><code class="lang-${lang || 'text'}">${code.trim()}</code></pre>`
-  );
-
-  // Headings
-  html = html.replace(/^###### (.+)$/gm, '<h6>$1</h6>');
-  html = html.replace(/^##### (.+)$/gm,  '<h5>$1</h5>');
-  html = html.replace(/^#### (.+)$/gm,   '<h4>$1</h4>');
-  html = html.replace(/^### (.+)$/gm,    '<h3>$1</h3>');
-  html = html.replace(/^## (.+)$/gm,     '<h2>$1</h2>');
-  html = html.replace(/^# (.+)$/gm,      '<h1>$1</h1>');
-
-  // Horizontal rule
-  html = html.replace(/^---+$/gm, '<hr>');
-
-  // Blockquotes
-  html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+  // Phase 3: Block-level transforms
+  s = s.replace(/^######\s(.+)$/gm, '<h6>$1</h6>');
+  s = s.replace(/^#####\s(.+)$/gm,  '<h5>$1</h5>');
+  s = s.replace(/^####\s(.+)$/gm,   '<h4>$1</h4>');
+  s = s.replace(/^###\s(.+)$/gm,    '<h3>$1</h3>');
+  s = s.replace(/^##\s(.+)$/gm,     '<h2>$1</h2>');
+  s = s.replace(/^#\s(.+)$/gm,      '<h1>$1</h1>');
+  s = s.replace(/^---+$/gm, '<hr>');
+  s = s.replace(/^&gt;\s(.+)$/gm, '<blockquote>$1</blockquote>');
 
   // Unordered lists
-  html = html.replace(/((?:^[\*\-] .+\n?)+)/gm, block => {
+  s = s.replace(/((?:^[*\-] .+\n?)+)/gm, block => {
     const items = block.trim().split('\n')
-      .map(l => `<li>${l.replace(/^[\*\-] /, '')}</li>`).join('');
+      .map(l => `<li>${l.replace(/^[*\-] /, '')}</li>`).join('');
     return `<ul>${items}</ul>`;
   });
 
   // Ordered lists
-  html = html.replace(/((?:^\d+\. .+\n?)+)/gm, block => {
+  s = s.replace(/((?:^\d+\. .+\n?)+)/gm, block => {
     const items = block.trim().split('\n')
       .map(l => `<li>${l.replace(/^\d+\. /, '')}</li>`).join('');
     return `<ol>${items}</ol>`;
   });
 
-  // Inline: bold, italic, inline code, images, links
-  html = html.replace(/\*\*(.+?)\*\*/g,         '<strong>$1</strong>');
-  html = html.replace(/\*(.+?)\*/g,              '<em>$1</em>');
-  html = html.replace(/`([^`]+)`/g,              '<code>$1</code>');
-  html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img alt="$1" src="$2">');
-  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g,  '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  // Phase 4: Inline transforms
+  s = s.replace(/\*\*(.+?)\*\*/g,            '<strong>$1</strong>');
+  s = s.replace(/\*(.+?)\*/g,                '<em>$1</em>');
+  s = s.replace(/`([^`]+)`/g,                '<code>$1</code>');
+  s = s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img alt="$1" src="$2">');
+  s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g,  '<a href="$2" target="_blank" rel="noopener">$1</a>');
 
-  // Paragraphs
-  const blockTags = ['<h1','<h2','<h3','<h4','<h5','<h6','<ul','<ol','<pre','<hr','<blockquote','</ul','</ol','</pre','</blockquote'];
-  const lines = html.split('\n');
+  // Phase 5: Paragraphs — placeholders count as block elements
+  const blockTags = ['<h1','<h2','<h3','<h4','<h5','<h6',
+    '<ul','<ol','<pre','<hr','<blockquote',
+    '</ul','</ol','</pre','</blockquote',
+    '\x00BLOCK'];
+  const lines = s.split('\n');
   const out = [];
   let inBlock = false;
 
@@ -98,9 +106,63 @@ function mdToHtml(md) {
     }
   }
 
-  return out.map(line =>
+  s = out.map(line =>
     (line.startsWith('<p>') && !line.endsWith('</p>')) ? line + '</p>' : line
   ).join('\n');
+
+  // Phase 6: Restore code blocks
+  s = s.replace(/\x00BLOCK(\d+)\x00/g, (_, i) => codeBlocks[+i]);
+
+  return s;
+}
+
+/* -------------------------------------------------------
+   Code block enhancer
+   Wraps every <pre> inside post content with a header bar
+   showing the language label and a copy button.
+------------------------------------------------------- */
+function enhanceCodeBlocks(container) {
+  container.querySelectorAll('pre').forEach(pre => {
+    if (pre.closest('.post-code-block')) return; // already enhanced
+
+    const codeEl = pre.querySelector('code');
+
+    // Detect language from class e.g. lang-js, language-python
+    const langClass = Array.from((codeEl || pre).classList)
+      .find(c => c.startsWith('lang-') || c.startsWith('language-'));
+    const lang = langClass
+      ? langClass.replace(/^lang-|^language-/, '').replace('text', '')
+      : '';
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'post-code-block';
+
+    const header = document.createElement('div');
+    header.className = 'post-code-header';
+
+    const langLabel = document.createElement('span');
+    langLabel.className = 'post-code-lang';
+    langLabel.textContent = lang || 'code';
+
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'post-code-copy';
+    copyBtn.textContent = 'copy';
+    copyBtn.addEventListener('click', () => {
+      const text = (codeEl || pre).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        copyBtn.textContent = 'copied!';
+        copyBtn.style.color = 'var(--green)';
+        setTimeout(() => { copyBtn.textContent = 'copy'; copyBtn.style.color = ''; }, 1800);
+      }).catch(() => {});
+    });
+
+    header.appendChild(langLabel);
+    header.appendChild(copyBtn);
+
+    pre.parentNode.insertBefore(wrapper, pre);
+    wrapper.appendChild(header);
+    wrapper.appendChild(pre);
+  });
 }
 
 /* -------------------------------------------------------
@@ -324,16 +386,27 @@ async function fetchPosts() {
 
         const tags = (post.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
 
+        const authorDisplay = post.author
+          ? `<span class="meta-author">${post.author}</span>`
+          : `<span class="meta-author">sarveshbhatnagar</span>`;
+
+        const sourceAttrib = post.author && post.source
+          ? `<div class="post-source-attrib">
+               Originally published on <a href="${post.source}" target="_blank" rel="noopener noreferrer">${new URL(post.source).hostname}</a>
+             </div>`
+          : '';
+
         container.innerHTML = `
             <div class="post-meta-bar">
               <div class="post-meta-info">
                 <span class="meta-date">// ${formatDate(post.date)}</span>
-                <span class="meta-author">sarveshbhatnagar</span>
+                ${authorDisplay}
               </div>
               <div class="tags">${tags}</div>
             </div>
             <div class="post-content fade-in">
               <h1>${post.title}</h1>
+              ${sourceAttrib}
               ${bodyHtml}
             </div>
             <div style="margin-top:var(--space-lg);">
@@ -343,6 +416,7 @@ async function fetchPosts() {
 
       if (hasInlinePostBody(post)) {
         renderPostBody(post.content);
+        enhanceCodeBlocks(container);
         return;
       }
 
@@ -352,7 +426,7 @@ async function fetchPosts() {
           if (!res.ok) throw new Error(`Could not load ${filename} (HTTP ${res.status})`);
           return res.text();
         })
-        .then(md => renderPostBody(mdToHtml(md)));
+        .then(md => { renderPostBody(mdToHtml(md)); enhanceCodeBlocks(container); });
     })
     .catch(err => {
       container.innerHTML = `
