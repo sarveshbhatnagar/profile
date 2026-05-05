@@ -6,7 +6,6 @@ date: May 05, 2026
 og_image: https://sarveshbhatnagar.com/images/anime-optimism-and-high.png
 og_url: https://sarveshbhatnagar.com/blog/optimism-and-highs
 ---
-# Optimism and Highs
 
 ## Thoughts
 
