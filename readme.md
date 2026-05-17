@@ -31,3 +31,5 @@ The workflow uploads the repository root as the site artifact.
 
 The active blog is JSON-driven (`blog/posts/posts.json` + `js/terminal-blog.js`).
 See `blog/README.md` for post authoring details and legacy generator notes.
+
+test
